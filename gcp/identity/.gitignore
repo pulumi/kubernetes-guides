@@ -7,8 +7,11 @@ node_modules/
 include/
 lib/
 yarn.lock
+yarn-error.log
 package-lock.json
 Pulumi.*.yaml
 .idea/
 *.iml
-credentials.tar.gz
+
+infra-ci-client-secret.json
+k8s-app-dev-ci-client-secret.json

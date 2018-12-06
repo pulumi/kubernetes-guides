@@ -1,0 +1,12 @@
+{
+    "name": "@pulumi/gke",
+    "devDependencies": {
+        "@types/node": "latest"
+    },
+    "peerDependencies": {
+        "@pulumi/gke": "latest"
+    },
+    "dependencies": {
+        "@pulumi/pulumi": "^0.16.6"
+    }
+}
