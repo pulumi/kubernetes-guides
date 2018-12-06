@@ -12,21 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import * as gke from "@pulumi/gke";
+import * as pulumi from "@pulumi/pulumi";
+import * as random from "@pulumi/random";
 
-import * as config from "./config";
+const config = new pulumi.Config();
 
 //
-// Create GKE cluster.
+// AKS-specific config.
 //
 
-const cluster = new gke.Cluster(`${config.envName}`, {
-    project: config.project,
-
-    zone: config.zone,
-
-    nodeCount: config.nodeCount,
-    nodeMachineType: config.nodeMachineType
-});
-
-export const kubeconfig = cluster.kubeconfig;
+export const name = config.get("name") || "aks";
+export const location = config.get("location") || "West US 2";
+export const password = config.get("password") ||
+    new random.RandomString("password", {
+        length: 16,
+        special: true,
+    }).result;

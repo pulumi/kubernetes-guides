@@ -1,0 +1,10 @@
+{
+  "devDependencies": {
+    "@types/node": "latest"
+  },
+  "dependencies": {
+    "@pulumi/azure": "^0.16.4",
+    "@pulumi/kubernetes": "^0.18.0",
+    "@pulumi/pulumi": "^0.16.7"
+  }
+}
