@@ -1,0 +1,11 @@
+{
+    "devDependencies": {
+        "@types/node": "latest"
+    },
+    "dependencies": {
+        "@pulumi/aws": "latest",
+        "@pulumi/aws-infra": "latest",
+        "@pulumi/eks": "latest",
+        "@pulumi/pulumi": "latest"
+    }
+}
