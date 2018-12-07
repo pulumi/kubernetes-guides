@@ -55,10 +55,10 @@
   resolved "https://registry.yarnpkg.com/@protobufjs/utf8/-/utf8-1.1.0.tgz#a777360b5b39a1a2e5106f8e858f2fd2d060c570"
   integrity sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=
 
-"@pulumi/azure@^0.16.4":
-  version "0.16.4"
-  resolved "https://registry.yarnpkg.com/@pulumi/azure/-/azure-0.16.4.tgz#1984d3228557e2ca4174eca088b4ebae31b00bc7"
-  integrity sha512-9UN1X3t0jJu1tmmmtY62hezAir+F+1uCpiyqyxjI7adTeOxXfncIb/vjYM2Aj3Vwjid+ZOBy2fleV2e/iOnFgQ==
+"@pulumi/azure@^0.16.5":
+  version "0.16.5"
+  resolved "https://registry.yarnpkg.com/@pulumi/azure/-/azure-0.16.5.tgz#13b3a08b059d3096e05c10d52caf77867b7c8320"
+  integrity sha512-Scd5sClSooN8Ujw6Ig167uj83KnKiKAvfHgAAxVao80uRRWkJSwMyJJwicjpxkyhrcRlxJUUdVvFE21eXR4CfA==
   dependencies:
     "@pulumi/pulumi" "^0.16.4"
 
