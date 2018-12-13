@@ -7,6 +7,9 @@
         "@pulumi/gke": "latest"
     },
     "dependencies": {
-        "@pulumi/pulumi": "^0.16.6"
+        "@pulumi/gcp": "^0.16.2",
+        "@pulumi/kubernetes": "^0.18.0",
+        "@pulumi/pulumi": "^0.16.7",
+        "@pulumi/random": "^0.2.0"
     }
 }
