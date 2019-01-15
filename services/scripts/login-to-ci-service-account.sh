@@ -7,6 +7,6 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-pulumi stack output k8sAppDevCiClientSecret -s "$1" > k8s-app-dev-ci-client-secret.json
+pulumi stack output k8sAppDevCiClientSecret --stack "$1" > k8s-app-dev-ci-client-secret.json
 gcloud auth activate-service-account --key-file k8s-app-dev-ci-client-secret.json
 rm k8s-app-dev-ci-client-secret.json

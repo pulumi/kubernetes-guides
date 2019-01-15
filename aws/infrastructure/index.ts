@@ -24,7 +24,7 @@ let privateSubnetIds: pulumi.Input<string>[] = config.privateSubnetIds!;
 if (config.vpcId === undefined) {
     const network = new awsinfra.Network("network", {
         usePrivateSubnets: config.usePrivateSubnets,
-        numberOfAvailabilityZones: config.numberOfAvailabilityZones,
+        numberOfAvailabilityZones: config.numberOfAvailabilityZones
     });
     vpcId = network.vpcId;
     publicSubnetIds = network.publicSubnetIds;
@@ -33,29 +33,31 @@ if (config.vpcId === undefined) {
 
 // Import the identity stack for its roles.
 const identityStack = new pulumi.StackReference("identityStack", { name: config.identityStack });
+const kubeAppRole = identityStack.getOutput("kubeAppRoleArn");
+kubeAppRole.apply(role => {
+    if (role === undefined) {
+        throw Error(`Stack output ${identityStack}.kubeAppRoleArn is undefined`);
+    }
+});
 
 // Create the EKS cluster itself.
 const eksCluster = new eks.Cluster("eksCluster", {
     vpcId: vpcId,
-    subnetIds: [ ...publicSubnetIds, ...(privateSubnetIds || []) ],
+    subnetIds: [...publicSubnetIds, ...(privateSubnetIds || [])],
     roleMappings: [
+        // TODO: Find a slightly more restrictive permission for this.
         {
-            roleArn: identityStack.getOutput("infrastructureManagementRoleArn"),
-            username: identityStack.getOutput("infrastructureManagementRoleArn"),
-            groups: ["system:masters"],
-        },
-        {
-            roleArn: identityStack.getOutput("applicationManagementRoleArn"),
-            username: identityStack.getOutput("applicationManagementRoleArn"),
-            groups: ["system:masters"],
-        },
+            roleArn: kubeAppRole,
+            username: kubeAppRole,
+            groups: ["system:masters"]
+        }
     ],
-    instanceType: config.instanceType,
+    instanceType: <any>config.instanceType,
     nodePublicKey: config.publicKey,
     desiredCapacity: config.desiredCapacity,
     minSize: config.minSize,
     maxSize: config.maxSize,
-    storageClasses: config.storageClass,
+    storageClasses: config.storageClass
 });
 
 export const kubeconfig = eksCluster.kubeconfig;
