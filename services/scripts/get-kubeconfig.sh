@@ -7,4 +7,4 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-pulumi stack output kubeconfig -s "$1" > kubeconfig.yaml
+pulumi stack output kubeconfig --stack "$1" > kubeconfig.yaml

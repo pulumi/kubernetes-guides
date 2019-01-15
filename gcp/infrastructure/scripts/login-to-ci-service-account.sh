@@ -7,6 +7,6 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-pulumi stack output infraCiClientSecret -s "$1" > infra-ci-client-secret.json
+pulumi stack output infraCiClientSecret --stack "$1" > infra-ci-client-secret.json
 gcloud auth activate-service-account --key-file infra-ci-client-secret.json
 rm infra-ci-client-secret.json
