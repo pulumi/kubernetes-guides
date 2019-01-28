@@ -1,5 +1,31 @@
+// Copyright 2016-2018, Pulumi Corporation.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
 import * as aws from "@pulumi/aws";
 import * as pulumi from "@pulumi/pulumi";
+
+//
+// Global statics.
+//
+
+export const groupName = "awsProd";
+
+//
+// Policy helpers.
+//
+
+export type Policies = { [name: string]: pulumi.Input<aws.ARN> };
 
 //
 // User types.
@@ -54,67 +80,4 @@ export class BotUser extends aws.iam.User {
     constructor(name: string, args?: aws.iam.UserArgs, opts?: pulumi.CustomResourceOptions) {
         super(`bot.${name}`, args, opts);
     }
-}
-
-//
-// Policy helpers.
-//
-
-export type Policies = { [name: string]: pulumi.Input<aws.ARN> };
-
-// Helper function that creates a new IAM Group and attaches the specified policies.
-export function newUserGroupWithPolicies(name: string, policies: Policies): aws.iam.Group {
-    const group = new aws.iam.Group(name, { path: "/users/" });
-    for (const policy of Object.keys(policies)) {
-        // Create GroupPolicyAttachment without returning it.
-        new aws.iam.GroupPolicyAttachment(
-            `${name}-${policy}`,
-            { policyArn: policies[policy], group },
-            { parent: group }
-        );
-    }
-
-    //
-    // TODO: Create policy for this
-    //
-
-    // // Grant every user the ability to manage their own credentials (e.g., reset passwords, etc.)
-    // new aws.iam.GroupPolicyAttachment(
-    //     `${name}-iamSelfManage`,
-    //     { policyArn: aws.iam.IAMSelfManageServiceSpecificCredentials, group },
-    //     { parent: group }
-    // );
-
-    return group;
-}
-
-// Helper function that creates a new IAM Role and attaches the specified policies.
-export function newRoleWithPolicies(
-    name: string,
-    args: aws.iam.RoleArgs,
-    policies: Policies
-): aws.iam.Role {
-    const role = new aws.iam.Role(name, args);
-    for (const policy of Object.keys(policies)) {
-        // Create RolePolicyAttachment without returning it.
-        new aws.iam.RolePolicyAttachment(
-            `${name}-${policy}`,
-            { policyArn: policies[policy], role },
-            { parent: role }
-        );
-    }
-    return role;
-}
-
-export function assumeRolePolicy(user: aws.ARN): aws.iam.PolicyDocument {
-    return {
-        Version: "2012-10-17",
-        Statement: [
-            {
-                Effect: "Allow",
-                Principal: { AWS: [user] },
-                Action: "sts:AssumeRole"
-            }
-        ]
-    };
 }
