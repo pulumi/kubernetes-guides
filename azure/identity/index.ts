@@ -1,4 +1,4 @@
-// Copyright 2016-2018, Pulumi Corporation.
+// Copyright 2016-2019, Pulumi Corporation.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,11 +15,13 @@
 import * as azure from "@pulumi/azure";
 import * as config from "./config";
 
-let resourceGroup = new azure.core.ResourceGroup(config.name, {location: config.location});
+let resourceGroup = new azure.core.ResourceGroup(config.name, { location: config.location });
 
 // Create the AD service principal for the K8s cluster.
 let adApp = new azure.ad.Application(`${config.name}-app`);
-let adSp = new azure.ad.ServicePrincipal(`${config.name}-sp`, {applicationId: adApp.applicationId});
+let adSp = new azure.ad.ServicePrincipal(`${config.name}-sp`, {
+    applicationId: adApp.applicationId,
+});
 let adSpPassword = new azure.ad.ServicePrincipalPassword(`${config.name}-password`, {
     servicePrincipalId: adSp.id,
     value: config.password,

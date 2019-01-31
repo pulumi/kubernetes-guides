@@ -1,4 +1,4 @@
-// Copyright 2016-2018, Pulumi Corporation.
+// Copyright 2016-2019, Pulumi Corporation.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ let privateSubnetIds: pulumi.Input<string>[] = config.privateSubnetIds!;
 if (config.vpcId === undefined) {
     const network = new awsinfra.Network("network", {
         usePrivateSubnets: config.usePrivateSubnets,
-        numberOfAvailabilityZones: config.numberOfAvailabilityZones
+        numberOfAvailabilityZones: config.numberOfAvailabilityZones,
     });
     vpcId = network.vpcId;
     publicSubnetIds = network.publicSubnetIds;
@@ -49,15 +49,15 @@ const eksCluster = new eks.Cluster("eksCluster", {
         {
             roleArn: kubeAppRole,
             username: kubeAppRole,
-            groups: ["system:masters"]
-        }
+            groups: ["system:masters"],
+        },
     ],
     instanceType: <any>config.instanceType,
     nodePublicKey: config.publicKey,
     desiredCapacity: config.desiredCapacity,
     minSize: config.minSize,
     maxSize: config.maxSize,
-    storageClasses: config.storageClass
+    storageClasses: config.storageClass,
 });
 
 export const kubeconfig = eksCluster.kubeconfig;

@@ -1,4 +1,4 @@
-// Copyright 2016-2018, Pulumi Corporation.
+// Copyright 2016-2019, Pulumi Corporation.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -21,5 +21,5 @@ const infrastructureStackName = config.require("infrastructureStackName");
 const infrastructureStack = new pulumi.StackReference(infrastructureStackName);
 
 export const k8sProvider = new k8s.Provider(`${infrastructureStackName}`, {
-    kubeconfig: infrastructureStack.getOutput("kubeconfig")
+    kubeconfig: infrastructureStack.getOutput("kubeconfig"),
 });
