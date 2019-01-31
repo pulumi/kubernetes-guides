@@ -1,4 +1,4 @@
-// Copyright 2016-2018, Pulumi Corporation.
+// Copyright 2016-2019, Pulumi Corporation.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,12 +18,12 @@ import * as gcp from "@pulumi/gcp";
 export function bindToRole(
     name: string,
     sa: gcp.serviceAccount.Account,
-    args: { project: pulumi.Input<string>; role: pulumi.Input<string> }
+    args: { project: pulumi.Input<string>; role: pulumi.Input<string> },
 ): gcp.projects.IAMBinding {
     return new gcp.projects.IAMBinding(name, {
         project: args.project,
         role: args.role,
-        members: [sa.email.apply(email => `serviceAccount:${email}`)]
+        members: [sa.email.apply(email => `serviceAccount:${email}`)],
     });
 }
 

@@ -1,4 +1,4 @@
-// Copyright 2016-2018, Pulumi Corporation.
+// Copyright 2016-2019, Pulumi Corporation.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -27,17 +27,17 @@ const infraCiId = "infraCi";
 const infraCi = new gcp.serviceAccount.Account(infraCiId, {
     project: config.project,
     accountId: "infra-ci",
-    displayName: "Infrastructure CI account"
+    displayName: "Infrastructure CI account",
 });
 
 const infraCiClusterAdminRole = util.bindToRole(`${infraCiId}ClusterAdmin`, infraCi, {
     project: config.project,
-    role: "roles/container.clusterAdmin"
+    role: "roles/container.clusterAdmin",
 });
 
 const infraCiCloudSqlAdminRole = util.bindToRole(`${infraCiId}CloudSqlAdmin`, infraCi, {
     project: config.project,
-    role: "roles/cloudsql.admin"
+    role: "roles/cloudsql.admin",
 });
 
 const infraCiKey = util.createCiKey(`${infraCiId}Key`, infraCi);
@@ -55,12 +55,12 @@ const k8sAppDevCiId = "k8sAppDev";
 const k8sAppDevCi = new gcp.serviceAccount.Account(k8sAppDevCiId, {
     project: config.project,
     accountId: "k8s-app-dev-ci",
-    displayName: "Infrastructure CI account"
+    displayName: "Infrastructure CI account",
 });
 
 const k8sAppDevRole = util.bindToRole(k8sAppDevCiId, k8sAppDevCi, {
     project: config.project,
-    role: "roles/container.developer"
+    role: "roles/container.developer",
 });
 
 const k8sAppDevCiKey = util.createCiKey(`${k8sAppDevCiId}Key`, k8sAppDevCi);

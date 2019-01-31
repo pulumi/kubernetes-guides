@@ -1,4 +1,4 @@
-// Copyright 2016-2018, Pulumi Corporation.
+// Copyright 2016-2019, Pulumi Corporation.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,9 +23,9 @@ const wordpress = new k8s.helm.v2.Chart(
     {
         repo: "stable",
         version: "2.1.3",
-        chart: "wordpress"
+        chart: "wordpress",
     },
-    { providers: { kubernetes: config.k8sProvider } }
+    { providers: { kubernetes: config.k8sProvider } },
 );
 
 // Export the public IP for Wordpress.

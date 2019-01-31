@@ -1,4 +1,4 @@
-// Copyright 2016-2018, Pulumi Corporation.
+// Copyright 2016-2019, Pulumi Corporation.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -28,9 +28,11 @@ const k8sCluster = new azure.containerservice.KubernetesCluster("aksCluster", {
     dnsPrefix: `${pulumi.getStack()}-kube`,
     linuxProfile: {
         adminUsername: "aksuser",
-        sshKeys: [{
-            keyData: config.sshPublicKey,
-        }],
+        sshKeys: [
+            {
+                keyData: config.sshPublicKey,
+            },
+        ],
     },
     servicePrincipal: {
         clientId: config.applicationID,

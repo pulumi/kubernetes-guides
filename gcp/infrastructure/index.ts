@@ -1,4 +1,4 @@
-// Copyright 2016-2018, Pulumi Corporation.
+// Copyright 2016-2019, Pulumi Corporation.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -31,13 +31,13 @@ const defaultClusterOptions = {
     masterUsername: "admin",
     masterPassword: new random.RandomString("password", {
         length: 16,
-        special: true
-    }).result
+        special: true,
+    }).result,
 };
 
 const network = new gcp.compute.Network(name, {
     project: config.project,
-    autoCreateSubnetworks: false
+    autoCreateSubnetworks: false,
 });
 
 const subnet = new gcp.compute.Subnetwork(name, {
@@ -46,11 +46,11 @@ const subnet = new gcp.compute.Subnetwork(name, {
         (<string>zone)
             .split("-")
             .slice(0, 2)
-            .join("-")
+            .join("-"),
     ),
     ipCidrRange: "10.0.0.0/24",
     network: network.name,
-    secondaryIpRanges: [{ rangeName: "pods", ipCidrRange: "10.1.0.0/16" }]
+    secondaryIpRanges: [{ rangeName: "pods", ipCidrRange: "10.1.0.0/16" }],
 });
 
 const cluster = new gcp.container.Cluster(name, {
@@ -61,7 +61,7 @@ const cluster = new gcp.container.Cluster(name, {
     minMasterVersion: defaultClusterOptions.minMasterVersion,
     masterAuth: {
         username: defaultClusterOptions.masterUsername,
-        password: defaultClusterOptions.masterPassword
+        password: defaultClusterOptions.masterPassword,
     },
     network: network.name,
     subnetwork: subnet.name,
@@ -71,9 +71,9 @@ const cluster = new gcp.container.Cluster(name, {
             "https://www.googleapis.com/auth/compute",
             "https://www.googleapis.com/auth/devstorage.read_only",
             "https://www.googleapis.com/auth/logging.write",
-            "https://www.googleapis.com/auth/monitoring"
-        ]
-    }
+            "https://www.googleapis.com/auth/monitoring",
+        ],
+    },
 });
 
 //
@@ -119,7 +119,7 @@ users:
 // Export a Kubernetes provider instance that uses our cluster from above.
 function createProvider(name: string, k8sConfig: any): k8s.Provider {
     return new k8s.Provider(name, {
-        kubeconfig: k8sConfig
+        kubeconfig: k8sConfig,
     });
 }
 
