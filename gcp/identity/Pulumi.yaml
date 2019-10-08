@@ -1,3 +1,0 @@
-name: identity
-description: Identity definitions for production Kubernetes infrastructure
-runtime: nodejs
