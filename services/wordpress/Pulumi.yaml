@@ -1,3 +1,0 @@
-name: wordpress
-description: Wordpress example running on production-ready Kubernetes infrastructure
-runtime: nodejs
