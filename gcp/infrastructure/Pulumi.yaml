@@ -1,3 +1,0 @@
-name: infrastructure
-description: Infrastructure (compute, storage, networking) for production Kubernetes infrastructure
-runtime: nodejs
