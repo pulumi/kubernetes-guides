@@ -1,0 +1,3 @@
+name: k8s-aws-identity
+description: Creates an identity stack for an AWS EKS cluster and its users.
+runtime: nodejs
