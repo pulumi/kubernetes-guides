@@ -2,19 +2,32 @@ import * as pulumi from "@pulumi/pulumi";
 
 let pulumiConfig = new pulumi.Config();
 
-// Existing EKS cluster Pulumi stack.
-// Stack reference to eksClusterStack in format:
-// <organization>/<project>/<stack> e.g. "myuser/eks-cluster/dev"
-const eksClusterStack = new pulumi.StackReference(pulumiConfig.require("eksClusterStackRef"));
+// Existing Pulumi stack reference in the format:
+// <organization>/<project>/<stack> e.g. "myUser/myProject/dev"
+const identityStackRef = new pulumi.StackReference(pulumiConfig.require("identityStackRef"));
+const infraStackRef = new pulumi.StackReference(pulumiConfig.require("infraStackRef"));
 
 export const config = {
-    // Cluster details from eksClusterStack output.
-    instanceRoleArn: eksClusterStack.getOutput("instanceRoleArn"),
-    kubeconfig: eksClusterStack.getOutput("kubeconfig"),
+    // Identity
+    adminsIamRoleArn: identityStackRef.getOutput("adminsIamRoleArn"),
+    devsIamRoleArn         : identityStackRef.getOutput("devsIamRoleArn"),
+    stdNodegroupIamRoleArn : identityStackRef.getOutput("stdNodegroupIamRoleArn"),
+    perfNodegroupIamRoleArn: identityStackRef.getOutput("perfNodegroupIamRoleArn"),
 
-    // Datadog API key.
-    // datadogApiKey: pulumiConfig.require("datadogApiKey"),
+    // Infrastructure / Networking
+    vpcId: infraStackRef.getOutput("vpcId"),
+    publicSubnetIds: infraStackRef.getOutput("publicSubnetIds"),
+    privateSubnetIds: infraStackRef.getOutput("privateSubnetIds"),
 
-    // Namespace to create and run in.
-        namespace: "cluster-services",
+    /*
+    defaultVpcId: infraStackRef.getOutput("defaultVpcId"),
+    defaultPublicSubnetIds: infraStackRef.getOutput("defaultPublicSubnetIds"),
+    defaultPrivateSubnetIds: infraStackRef.getOutput("defaultPrivateSubnetIds"),
+    */
+
+    /*
+    existingVpcId: infraStackRef.getOutput("existingVpcId"),
+    existingPublicSubnetIds: infraStackRef.getOutput("existingPublicSubnetIds"),
+    existingPrivateSubnetIds: infraStackRef.getOutput("existingPrivateSubnetIds"),
+    */
 };
