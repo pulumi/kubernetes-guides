@@ -1,0 +1,3 @@
+name: k8s-aws-infra
+description: Creates an managed infrastructure stack for an AWS EKS cluster.
+runtime: nodejs

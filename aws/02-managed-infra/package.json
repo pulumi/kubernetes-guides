@@ -1,0 +1,11 @@
+{
+    "name": "k8s-aws-infra",
+    "devDependencies": {
+        "typescript": "^3.0.0",
+        "@types/node": "latest"
+    },
+    "dependencies": {
+        "@pulumi/awsx": "latest",
+        "@pulumi/pulumi": "latest"
+    }
+}
