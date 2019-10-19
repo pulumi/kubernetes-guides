@@ -7,6 +7,7 @@ const pulumiConfig = new pulumi.Config();
 
 const identityStackRef = new pulumi.StackReference(pulumiConfig.require("identityStackRef"));
 const infraStackRef = new pulumi.StackReference(pulumiConfig.require("infraStackRef"));
+const clusterStackRef = new pulumi.StackReference(pulumiConfig.require("clusterStackRef"));
 
 export const config = {
     // Resource Group
@@ -19,4 +20,7 @@ export const config = {
     // Infrastructure / Networking
     subnetId:                 infraStackRef.getOutput("subnetId"),
     logAnalyticsWorkspaceId:  infraStackRef.getOutput("logAnalyticsWorkspaceId"),
+
+    // AKS Cluster
+    clusterId:                clusterStackRef.getOutput("clusterId"),
 };

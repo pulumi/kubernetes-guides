@@ -23,7 +23,7 @@ const adSpPwd = new azuread.ServicePrincipalPassword(`${name}-aksSpPassword`, {
 });
 
 // Define a resource group (shared for all stacks)
-const resourceGroup = new azure.core.ResourceGroup(name);
+const resourceGroup = new azure.core.ResourceGroup("k8s-az");
 
 // Grant the resource group the "Network Contributor" role so that it
 // can link the static IP to a Service LoadBalancer.
