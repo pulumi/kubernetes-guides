@@ -1,0 +1,3 @@
+name: k8s-az-identity
+description: Creates an identity stack for an AKS cluster and its users.
+runtime: nodejs
