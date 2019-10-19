@@ -6,7 +6,6 @@ const pulumiConfig = new pulumi.Config();
 // <organization>/<project>/<stack> e.g. "myUser/myProject/dev"
 
 const identityStackRef = new pulumi.StackReference(pulumiConfig.require("identityStackRef"));
-const infraStackRef = new pulumi.StackReference(pulumiConfig.require("infraStackRef"));
 
 export const config = {
     // Resource Group
@@ -15,7 +14,4 @@ export const config = {
     // Identity
     adApplicationId:        identityStackRef.getOutput("adApplicationId"),
     adSpPassword:           identityStackRef.getOutput("adSpPassword"),
-
-    // Infrastructure / Networking
-    subnetId:               infraStackRef.getOutput("subnetId"),
 };
