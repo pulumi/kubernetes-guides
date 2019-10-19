@@ -45,6 +45,12 @@ const cluster = new azure.containerservice.KubernetesCluster(`${name}`, {
         serviceCidr: "10.2.2.0/24",
         dockerBridgeCidr: "172.17.0.1/16",
     },
+    addonProfile: {
+        omsAgent: {
+            enabled: true,
+            logAnalyticsWorkspaceId: config.logAnalyticsWorkspaceId,
+        },
+    },
 });
 
 // Expose a k8s provider instance of the cluster.
@@ -60,6 +66,7 @@ const staticAppIp = new azure.network.PublicIp(`${name}-staticAppIp`, {
 
 // Export the cluster details.
 export const kubeconfig = cluster.kubeConfigRaw;
+export const clusterId = cluster.id;
 export const clusterName = cluster.name;
 
 // Create Kubernetes namespaces.
