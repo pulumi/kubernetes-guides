@@ -6,8 +6,6 @@
     },
     "dependencies": {
         "@pulumi/azure": "latest",
-        "@pulumi/azuread": "latest",
-        "@pulumi/random": "latest",
         "@pulumi/tls": "latest",
         "@pulumi/kubernetes": "latest",
         "@pulumi/pulumi": "latest"
