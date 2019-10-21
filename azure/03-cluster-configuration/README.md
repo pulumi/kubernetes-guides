@@ -1,7 +1,7 @@
 ```
 pulumi stack init dev
-pulumi config set identityStackRef mikhailshilkov/k8s-az-identity/dev
-pulumi config set infraStackRef mikhailshilkov/k8s-az-infra/dev
+pulumi config set identityStackRef myorg/k8s-az-identity/dev
+pulumi config set infraStackRef myorg/k8s-az-infra/dev
 
 # See https://github.com/Azure/AKS/blob/master/previews.md
 az extension add --name aks-preview
