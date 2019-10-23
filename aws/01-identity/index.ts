@@ -37,19 +37,19 @@ const devsIamRole = new aws.iam.Role(`${devName}-eksClusterDeveloper`, {
 export const devsIamRoleArn = devsIamRole.arn;
 
 // Create the standard node group worker role and attach the required policies.
-const stdNodegroupIamRoleName = "standardNodeGroup";
-const stdNodegroupIamRole = new aws.iam.Role(`${stdNodegroupIamRoleName}-eksClusterWorkerNode`, {
+const stdName = "standardNodeGroup";
+const stdNodegroupIamRole = new aws.iam.Role(`${stdName}-eksClusterWorkerNode`, {
     assumeRolePolicy: aws.iam.assumeRolePolicyForPrincipal({"Service": "ec2.amazonaws.com"})
 })
-attachPoliciesToRole(stdNodegroupIamRoleName, stdNodegroupIamRole, nodegroupManagedPolicyArns);
+attachPoliciesToRole(stdName, stdNodegroupIamRole, nodegroupManagedPolicyArns);
 export const stdNodegroupIamRoleArn = stdNodegroupIamRole.arn;
 
 // Create the performant node group worker role and attach the required policies.
-const perfNodegroupIamRoleName = "performanceNodeGroup";
-const perfNodegroupIamRole = new aws.iam.Role(`${perfNodegroupIamRoleName}-eksClusterWorkerNode`, {
+const perfName = "performanceNodeGroup";
+const perfNodegroupIamRole = new aws.iam.Role(`${perfName}-eksClusterWorkerNode`, {
     assumeRolePolicy: aws.iam.assumeRolePolicyForPrincipal({"Service": "ec2.amazonaws.com"})
 })
-attachPoliciesToRole(perfNodegroupIamRoleName, perfNodegroupIamRole, nodegroupManagedPolicyArns);
+attachPoliciesToRole(perfName, perfNodegroupIamRole, nodegroupManagedPolicyArns);
 export const perfNodegroupIamRoleArn = perfNodegroupIamRole.arn;
 
 // Attach policies to a role.
