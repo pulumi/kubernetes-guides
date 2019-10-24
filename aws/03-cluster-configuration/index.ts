@@ -59,6 +59,7 @@ const cluster = new eks.Cluster(`${projectName}`, {
 export const kubeconfig = cluster.kubeconfig;
 export const clusterName = cluster.core.cluster.name;
 export const region = aws.config.region;
+export const securityGroupIds = [cluster.nodeSecurityGroup.id];
 
 // Create a Standard node group of t2.medium workers.
 const ngStandard = new eks.NodeGroup(`${projectName}-ng-standard`, {
