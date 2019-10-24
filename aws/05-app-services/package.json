@@ -1,0 +1,13 @@
+{
+    "name": "k8s-aws-app-svcs",
+    "devDependencies": {
+        "typescript": "^3.0.0",
+        "@types/node": "latest"
+    },
+    "dependencies": {
+        "@pulumi/aws": "latest",
+        "@pulumi/kubernetes": "latest",
+        "@pulumi/random": "latest",
+        "@pulumi/pulumi": "latest"
+    }
+}

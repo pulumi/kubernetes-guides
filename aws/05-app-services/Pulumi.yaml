@@ -1,0 +1,3 @@
+name: k8s-aws-app-svcs
+description: Deploys common EKS app services.
+runtime: nodejs
