@@ -19,4 +19,3 @@ export const config = {
     appsSvcsNamespaceName: clusterStackRef.getOutput("appSvcsNamespaceName"),
     appsNamespaceName: clusterStackRef.getOutput("appsNamespaceName"),
 };
-
