@@ -16,6 +16,6 @@ export const config = {
     kubeconfig: clusterStackRef.getOutput("kubeconfig"),
     clusterName: clusterStackRef.getOutput("clusterName"),
     clusterSvcsNamespaceName: clusterStackRef.getOutput("clusterSvcsNamespaceName"),
-    appsSvcsNamespaceName: clusterStackRef.getOutput("appSvcsNamespaceName"),
+    appSvcsNamespaceName: clusterStackRef.getOutput("appSvcsNamespaceName"),
     appsNamespaceName: clusterStackRef.getOutput("appsNamespaceName"),
 };
