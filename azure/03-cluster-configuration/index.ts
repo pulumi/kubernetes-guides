@@ -18,9 +18,17 @@ const sshPublicKey = new tls.PrivateKey(`${name}-sshKey`, {
 const cluster = new azure.containerservice.KubernetesCluster(`${name}`, {
     resourceGroupName: config.resourceGroupName,
     agentPoolProfiles: [{
-        name: "aksagentpool",
+        name: "standard",
         count: 2,
         vmSize: "Standard_B2s",
+        osType: "Linux",
+        osDiskSizeGb: 30,
+        vnetSubnetId: config.subnetId,
+    },
+    {
+        name: "performant",
+        count: 3,
+        vmSize: "Standard_DS4_v2",
         osType: "Linux",
         osDiskSizeGb: 30,
         vnetSubnetId: config.subnetId,
