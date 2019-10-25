@@ -12,7 +12,7 @@ const provider = new k8s.Provider(`${name}-aks`, {
     kubeconfig: config.kubeconfig,
 });
 
-// Boot up nodejs Helm chart example using CosmosDB in place of in-cluster MongoDB.
+// Boot up nodejs Helm chart example using the MongoDB instance of CosmosDB from App Services.
 const node = new k8s.helm.v2.Chart(
     "node",
     {
