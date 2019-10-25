@@ -8,12 +8,12 @@ const name = pulumi.getProject();
 const azMonitoringDiagnostic = new azure.monitoring.DiagnosticSetting(name, {
     logAnalyticsWorkspaceId: config.logAnalyticsWorkspaceId,
     targetResourceId: config.clusterId,
-    logs: [{
-            category: "kube-apiserver",
+    logs: ["kube-apiserver", "kube-controller-manager", "kube-scheduler", "kube-audit", "cluster-autoscaler"]
+        .map(category => ({
+            category,
             enabled : true,
             retentionPolicy: { enabled: true },
-        },
-    ],
+        })),
     metrics: [{
         category: "AllMetrics",
         retentionPolicy: { enabled: true },
