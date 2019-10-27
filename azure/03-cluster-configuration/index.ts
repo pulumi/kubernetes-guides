@@ -18,17 +18,16 @@ const sshPublicKey = new tls.PrivateKey(`${name}-sshKey`, {
 const cluster = new azure.containerservice.KubernetesCluster(`${name}`, {
     resourceGroupName: config.resourceGroupName,
     agentPoolProfiles: [{
-        name: "standard",
-        count: 2,
-        vmSize: "Standard_B2s",
-        osType: "Linux",
-        osDiskSizeGb: 30,
-        vnetSubnetId: config.subnetId,
-    },
-    {
         name: "performant",
         count: 3,
         vmSize: "Standard_DS4_v2",
+        osType: "Linux",
+        osDiskSizeGb: 30,
+        vnetSubnetId: config.subnetId,
+    }, {
+        name: "standard",
+        count: 2,
+        vmSize: "Standard_B2s",
         osType: "Linux",
         osDiskSizeGb: 30,
         vnetSubnetId: config.subnetId,
@@ -42,11 +41,18 @@ const cluster = new azure.containerservice.KubernetesCluster(`${name}`, {
         },
     },
     servicePrincipal: {
-        clientId: config.adApplicationId,
-        clientSecret: config.adSpPassword,
+        clientId: config.adClientAppId,
+        clientSecret: config.adClientAppSecret,
     },
     kubernetesVersion: "1.14.6",
-    roleBasedAccessControl: {enabled: true},
+    roleBasedAccessControl: {
+        enabled: true,
+        azureActiveDirectory: {
+            clientAppId: config.adClientAppId,
+            serverAppId: config.adServerAppId,
+            serverAppSecret: config.adServerAppSecret,
+        },
+    },
     networkProfile: {
         networkPlugin: "azure",
         dnsServiceIp: "10.2.2.254",
@@ -61,11 +67,6 @@ const cluster = new azure.containerservice.KubernetesCluster(`${name}`, {
     },
 });
 
-// Expose a k8s provider instance of the cluster.
-const provider = new k8s.Provider(`${name}-aks`, {
-    kubeconfig: cluster.kubeConfigRaw,
-});
-
 // Create a static public IP for the Service LoadBalancer.
 const staticAppIp = new azure.network.PublicIp(`${name}-staticAppIp`, {
     resourceGroupName: cluster.nodeResourceGroup,
@@ -77,14 +78,35 @@ export const kubeconfig = cluster.kubeConfigRaw;
 export const clusterId = cluster.id;
 export const clusterName = cluster.name;
 
+// Define a k8s provider instance of the cluster.
+// Use admin config to get enough permissions for role binding.
+const provider = new k8s.Provider(`${name}-aks`, {
+    kubeconfig: cluster.kubeAdminConfigRaw,
+});
+
+const clientConfig = azure.core.getClientConfig({});
+const currentPrincipal = clientConfig.objectId;
+const adminRole = new k8s.rbac.v1.ClusterRoleBinding("admins", {
+    subjects: [{
+        apiGroup: "rbac.authorization.k8s.io",
+        kind: "User",
+        name: currentPrincipal,
+    }],
+    roleRef: {
+        apiGroup: "rbac.authorization.k8s.io",
+        kind: "ClusterRole",
+        name: "cluster-admin",
+    },
+}, { provider });
+
 // Create Kubernetes namespaces.
-const clusterSvcsNamespace = new k8s.core.v1.Namespace("cluster-svcs", undefined, { provider });
+const clusterSvcsNamespace = new k8s.core.v1.Namespace("cluster-svcs", undefined, { provider, dependsOn: [adminRole] });
 export const clusterSvcsNamespaceName = clusterSvcsNamespace.metadata.name;
 
-const appSvcsNamespace = new k8s.core.v1.Namespace("app-svcs", undefined, { provider });
+const appSvcsNamespace = new k8s.core.v1.Namespace("app-svcs", undefined, { provider, dependsOn: [adminRole] });
 export const appSvcsNamespaceName = appSvcsNamespace.metadata.name;
 
-const appNamespace = new k8s.core.v1.Namespace("apps", undefined, { provider });
+const appNamespace = new k8s.core.v1.Namespace("apps", undefined, { provider, dependsOn: [adminRole] });
 export const appNamespaceName = appNamespace.metadata.name;
 
 // Create a resource quota in the apps namespace.
@@ -105,9 +127,7 @@ const quotaAppNamespace = new k8s.core.v1.ResourceQuota("apps", {
 // Create a limited role for the `pulumi:devs` to use in the apps namespace.
 const devsGroupRole = new k8s.rbac.v1.Role("pulumi-devs",
     {
-        metadata: {
-            namespace: appNamespaceName,
-        },
+        metadata: { namespace: appNamespaceName },
         rules: [
             {
                 apiGroups: ["", "apps"],
@@ -121,12 +141,10 @@ const devsGroupRole = new k8s.rbac.v1.Role("pulumi-devs",
 
 // Bind the `pulumi:devs` RBAC group to the new, limited role.
 const devsGroupRoleBinding = new k8s.rbac.v1.RoleBinding("pulumi-devs", {
-    metadata: {
-        namespace: appNamespaceName,
-    },
+    metadata: { namespace: appNamespaceName },
     subjects: [{
         kind: "Group",
-        name: "pulumi:devs",
+        name: config.adGroupDevs,
     }],
     roleRef: {
         kind: "Role",
