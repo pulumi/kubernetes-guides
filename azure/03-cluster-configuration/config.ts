@@ -1,3 +1,4 @@
+import * as azure from "@pulumi/azure";
 import * as pulumi from "@pulumi/pulumi";
 
 const pulumiConfig = new pulumi.Config();
@@ -13,8 +14,11 @@ export const config = {
     resourceGroupName:        identityStackRef.getOutput("resourceGroupName"),
 
     // Identity
-    adApplicationId:          identityStackRef.getOutput("adApplicationId"),
-    adSpPassword:             identityStackRef.getOutput("adSpPassword"),
+    adServerAppId:            identityStackRef.getOutput("adServerAppId"),
+    adServerAppSecret:        identityStackRef.getOutput("adServerAppSecret"),
+    adClientAppId:            identityStackRef.getOutput("adClientAppId"),
+    adClientAppSecret:        identityStackRef.getOutput("adClientAppSecret"),
+    adGroupDevs:              identityStackRef.getOutput("adGroupDevs"),
 
     // Infrastructure / Networking
     subnetId:                 infraStackRef.getOutput("subnetId"),

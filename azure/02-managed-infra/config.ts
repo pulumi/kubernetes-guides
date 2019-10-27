@@ -10,8 +10,4 @@ const identityStackRef = new pulumi.StackReference(pulumiConfig.require("identit
 export const config = {
     // Resource Group
     resourceGroupName:      identityStackRef.getOutput("resourceGroupName"),
-
-    // Identity
-    adApplicationId:        identityStackRef.getOutput("adApplicationId"),
-    adSpPassword:           identityStackRef.getOutput("adSpPassword"),
 };
