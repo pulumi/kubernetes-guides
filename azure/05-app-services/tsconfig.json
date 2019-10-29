@@ -20,6 +20,7 @@
     },
     "files": [
         "config.ts",
-        "index.ts"
+        "index.ts",
+        "mongoHelpers.ts"
     ]
 }

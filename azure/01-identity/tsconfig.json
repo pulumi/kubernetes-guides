@@ -19,7 +19,6 @@
         "strictNullChecks": true
     },
     "files": [
-        "config.ts",
         "index.ts"
     ]
 }

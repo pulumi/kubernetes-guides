@@ -1,13 +1,13 @@
 {
-    "name": "k8s-az-cluster",
+    "name": "k8s-az-identity",
     "devDependencies": {
         "typescript": "^3.0.0",
         "@types/node": "latest"
     },
     "dependencies": {
         "@pulumi/azure": "latest",
-        "@pulumi/tls": "latest",
-        "@pulumi/kubernetes": "latest",
+        "@pulumi/azuread": "latest",
+        "@pulumi/random": "latest",
         "@pulumi/pulumi": "latest"
     }
 }

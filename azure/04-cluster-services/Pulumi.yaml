@@ -1,0 +1,3 @@
+name: k8s-az-services
+description: Creates Azure Cluster Services for an AKS cluster.
+runtime: nodejs
