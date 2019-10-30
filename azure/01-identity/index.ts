@@ -110,8 +110,29 @@ const rgNetworkRole = new azure.role.Assignment(`${name}-spRole`, {
     roleDefinitionName: "Network Contributor",
 });
 
+const clientConfig = azure.core.getClientConfig({});
+const currentPrincipal = clientConfig.objectId;
+
+const admins = new azuread.Group("admins", {
+    name: "pulumi:admins",
+    members: [
+        currentPrincipal,
+    ],
+});
+
+/* That's how you can create a user
+const dev = new azuread.User("k8s-dev", {
+    userPrincipalName: "k8xdev@example.com",
+    displayName: "K8x Dev",
+    password: "Qjker21!G",
+});
+*/
+
 const devs = new azuread.Group("devs", {
     name: "pulumi:devs",
+    members: [
+        // Assign a dev user if created above: dev.objectId,
+    ],
 });
 
 // Export outputs for other stacks
@@ -120,4 +141,5 @@ export const adServerAppId = applicationServer.applicationId;
 export const adServerAppSecret = spPasswordServer.value;
 export const adClientAppId = applicationClient.applicationId;
 export const adClientAppSecret = spPasswordClient.value;
-export const adGroupDevs = devs.name;
+export const adGroupAdmins = admins.objectId;
+export const adGroupDevs = devs.objectId;
