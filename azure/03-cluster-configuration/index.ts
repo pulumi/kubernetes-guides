@@ -84,13 +84,11 @@ const provider = new k8s.Provider(`${name}-aks`, {
     kubeconfig: cluster.kubeAdminConfigRaw,
 });
 
-const clientConfig = azure.core.getClientConfig({});
-const currentPrincipal = clientConfig.objectId;
-const adminRole = new k8s.rbac.v1.ClusterRoleBinding("admins", {
+const adminRole = new k8s.rbac.v1.ClusterRoleBinding("pulumi-admins", {
     subjects: [{
         apiGroup: "rbac.authorization.k8s.io",
-        kind: "User",
-        name: currentPrincipal,
+        kind: "Group",
+        name: config.adGroupAdmins,
     }],
     roleRef: {
         apiGroup: "rbac.authorization.k8s.io",
@@ -147,8 +145,8 @@ const devsGroupRoleBinding = new k8s.rbac.v1.RoleBinding("pulumi-devs", {
         name: config.adGroupDevs,
     }],
     roleRef: {
+        apiGroup: "rbac.authorization.k8s.io",
         kind: "Role",
         name: devsGroupRole.metadata.name,
-        apiGroup: "rbac.authorization.k8s.io",
     },
 }, { provider });

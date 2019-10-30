@@ -18,6 +18,7 @@ export const config = {
     adServerAppSecret:        identityStackRef.getOutput("adServerAppSecret"),
     adClientAppId:            identityStackRef.getOutput("adClientAppId"),
     adClientAppSecret:        identityStackRef.getOutput("adClientAppSecret"),
+    adGroupAdmins:            identityStackRef.getOutput("adGroupAdmins"),
     adGroupDevs:              identityStackRef.getOutput("adGroupDevs"),
 
     // Infrastructure / Networking
