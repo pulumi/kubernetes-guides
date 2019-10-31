@@ -75,6 +75,7 @@ const staticAppIp = new azure.network.PublicIp(`${name}-staticAppIp`, {
 
 // Export the cluster details.
 export const kubeconfig = cluster.kubeConfigRaw;
+export const kubeconfigAdmin = cluster.kubeAdminConfigRaw;
 export const clusterId = cluster.id;
 export const clusterName = cluster.name;
 
