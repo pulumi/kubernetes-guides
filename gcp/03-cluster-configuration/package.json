@@ -6,9 +6,9 @@
         "@types/which": "latest"
     },
     "dependencies": {
-        "@pulumi/kubernetes": "^1.0.0",
-        "@pulumi/gcp": "^1.0.0",
-        "@pulumi/pulumi": "^1.0.0",
-        "@pulumi/random": "^1.0.0"
+        "@pulumi/kubernetes": "latest",
+        "@pulumi/gcp": "latest",
+        "@pulumi/pulumi": "latest",
+        "@pulumi/random": "latest"
     }
 }

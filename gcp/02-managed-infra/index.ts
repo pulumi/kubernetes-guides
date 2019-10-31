@@ -19,36 +19,16 @@ import * as random from "@pulumi/random";
 
 import * as config from "./config";
 
-const name = config.envName;
+const projectName = pulumi.getProject();
 
-// Default values for constructing the `Cluster` object.
-const defaultClusterOptions = {
-    nodeCount: 3,
-    nodeVersion: "latest",
-    nodeMachineType: "n1-standard-1",
-
-    minMasterVersion: "latest",
-    masterUsername: "admin",
-    masterPassword: new random.RandomString("password", {
-        length: 16,
-        special: true,
-    }).result,
-};
-
-const network = new gcp.compute.Network(name, {
-    project: config.project,
+// Create a new network.
+const network = new gcp.compute.Network(projectName, {
     autoCreateSubnetworks: false,
 });
 export const networkName = network.name;
 
-const subnet = new gcp.compute.Subnetwork(name, {
-    project: config.project,
-    region: pulumi.output(config.zone).apply(zone =>
-        (<string>zone)
-            .split("-")
-            .slice(0, 2)
-            .join("-"),
-    ),
+// Create a new subnet.
+const subnet = new gcp.compute.Subnetwork(projectName, {
     ipCidrRange: "10.0.0.0/24",
     network: network.name,
     secondaryIpRanges: [{ rangeName: "pods", ipCidrRange: "10.1.0.0/16" }],

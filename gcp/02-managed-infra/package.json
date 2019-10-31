@@ -1,5 +1,5 @@
 {
-    "name": "@pulumi/gke",
+    "name": "k8s-gcp-infra",
     "devDependencies": {
         "@types/node": "latest"
     },
@@ -7,9 +7,9 @@
         "@pulumi/gke": "latest"
     },
     "dependencies": {
-        "@pulumi/gcp": "^0.16.2",
-        "@pulumi/kubernetes": "^0.18.0",
-        "@pulumi/pulumi": "^0.16.7",
-        "@pulumi/random": "^0.2.0"
+        "@pulumi/gcp": "latest",
+        "@pulumi/kubernetes": "latest",
+        "@pulumi/pulumi": "latest",
+        "@pulumi/random": "latest"
     }
 }
