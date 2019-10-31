@@ -19,11 +19,20 @@ const password = new random.RandomString(
 
 // Create the GKE cluster.
 const cluster = new gcp.container.Cluster(`${name}`, {
-    initialNodeCount: 2,
+    // We can't create a cluster with no node pool defined, but we want to only use
+    // separately managed node pools. So we create the smallest possible default
+    // node pool and immediately delete it.
+    removeDefaultNodePool: true,
+    initialNodeCount: 1,
     podSecurityPolicyConfig: { enabled: true },
     network: config.networkName,
     subnetwork: config.subnetworkName,
+    minMasterVersion: "1.14.7-gke.10",
     masterAuth: { username: "example-user", password: password },
+});
+
+const standardNodes = new gcp.container.NodePool("standard-nodes", {
+    cluster: cluster.name,
     nodeConfig: {
         machineType: "n1-standard-1",
         oauthScopes: [
@@ -33,6 +42,21 @@ const cluster = new gcp.container.Cluster(`${name}`, {
             "https://www.googleapis.com/auth/monitoring",
         ],
     },
+    nodeCount: 2,
+});
+
+const performantNodes = new gcp.container.NodePool("performant-nodes", {
+    cluster: cluster.name,
+    nodeConfig: {
+        machineType: "n1-standard-16",
+        oauthScopes: [
+            "https://www.googleapis.com/auth/compute",
+            "https://www.googleapis.com/auth/devstorage.read_only",
+            "https://www.googleapis.com/auth/logging.write",
+            "https://www.googleapis.com/auth/monitoring",
+        ],
+    },
+    nodeCount: 2,
 });
 
 // Manufacture a GKE-style Kubeconfig. Note that this is slightly

@@ -2,9 +2,9 @@ import * as pulumi from "@pulumi/pulumi";
 
 let pulumiConfig = new pulumi.Config();
 
-const infraStackRef = new pulumi.StackReference(pulumiConfig.require("infraStackRef"));
+const infraStackName = new pulumi.StackReference(pulumiConfig.require("infraStackName"));
 
 export const config = {
-    networkName: infraStackRef.requireOutput("networkName"),
-    subnetworkName: infraStackRef.requireOutput("subnetworkName"),
+    networkName: infraStackName.requireOutput("networkName"),
+    subnetworkName: infraStackName.requireOutput("subnetworkName"),
 };

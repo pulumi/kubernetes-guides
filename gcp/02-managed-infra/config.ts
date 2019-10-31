@@ -18,15 +18,3 @@ const config = new pulumi.Config();
 
 export const identityStackName = config.require("identityStackName");
 const identityStack = new pulumi.StackReference(identityStackName);
-
-//
-// GCP-specific config.
-//
-
-// project is the GCP project you are going to deploy to.
-export const project = identityStack.getOutput("project");
-
-// zone is the zone in which to build the cluster.
-export const zone = config.require("zone");
-
-export const envName = config.require("envName");
