@@ -33,6 +33,9 @@ const cluster = new gcp.container.Cluster(`${name}`, {
 
 const standardNodes = new gcp.container.NodePool("standard-nodes", {
     cluster: cluster.name,
+    version: "1.14.7-gke.10",
+    autoscaling: {minNodeCount: 2, maxNodeCount: 3},
+    initialNodeCount: 2,
     nodeConfig: {
         machineType: "n1-standard-1",
         oauthScopes: [
@@ -41,12 +44,16 @@ const standardNodes = new gcp.container.NodePool("standard-nodes", {
             "https://www.googleapis.com/auth/logging.write",
             "https://www.googleapis.com/auth/monitoring",
         ],
+        labels: {"instanceType": "n1-standard-1"},
+        tags: ["org-pulumi"],
     },
-    nodeCount: 2,
 });
 
 const performantNodes = new gcp.container.NodePool("performant-nodes", {
     cluster: cluster.name,
+    version: "1.14.7-gke.10",
+    autoscaling: {minNodeCount: 2, maxNodeCount: 3},
+    initialNodeCount: 2,
     nodeConfig: {
         machineType: "n1-standard-16",
         oauthScopes: [
@@ -55,8 +62,10 @@ const performantNodes = new gcp.container.NodePool("performant-nodes", {
             "https://www.googleapis.com/auth/logging.write",
             "https://www.googleapis.com/auth/monitoring",
         ],
+        labels: {"instanceType": "n1-standard-16"},
+        tags: ["org-pulumi"],
+        taints: [{key: "special", value: "true", effect: "NO_SCHEDULE"}],
     },
-    nodeCount: 2,
 });
 
 // Manufacture a GKE-style Kubeconfig. Note that this is slightly
