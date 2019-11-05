@@ -44,7 +44,7 @@ const cluster = new azure.containerservice.KubernetesCluster(`${name}`, {
         clientId: config.adClientAppId,
         clientSecret: config.adClientAppSecret,
     },
-    kubernetesVersion: "1.14.6",
+    kubernetesVersion: "1.14.8",
     roleBasedAccessControl: {
         enabled: true,
         azureActiveDirectory: {
