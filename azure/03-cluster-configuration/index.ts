@@ -129,8 +129,13 @@ const devsGroupRole = new k8s.rbac.v1.Role("pulumi-devs",
         metadata: { namespace: appNamespaceName },
         rules: [
             {
-                apiGroups: ["", "apps"],
-                resources: ["pods", "services", "deployments", "replicasets", "persistentvolumeclaims"],
+                apiGroups: [""],
+                resources: ["pods", "secrets", "services", "persistentvolumeclaims"],
+                verbs: ["get", "list", "watch", "create", "update", "delete"],
+            },
+            {
+                apiGroups: ["extensions", "apps"],
+                resources: ["replicasets", "deployments"],
                 verbs: ["get", "list", "watch", "create", "update", "delete"],
             },
         ],
