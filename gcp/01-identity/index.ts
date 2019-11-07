@@ -13,7 +13,6 @@
 // limitations under the License.
 
 import * as gcp from "@pulumi/gcp";
-
 import * as config from "./config";
 import * as util from "./util";
 

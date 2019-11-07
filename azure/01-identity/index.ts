@@ -110,7 +110,7 @@ const rgNetworkRole = new azure.role.Assignment(`${name}-spRole`, {
     roleDefinitionName: "Network Contributor",
 });
 
-const clientConfig = azure.core.getClientConfig({});
+const clientConfig = azure.core.getClientConfig();
 const currentPrincipal = clientConfig.objectId;
 
 const admins = new azuread.Group("admins", {
@@ -130,7 +130,7 @@ const dev = new azuread.User("k8s-dev", {
 
 /* Get an existing AD user.
 const dev = azuread.getUser({
-    userPrincipalName: "mike@pulumi.com",
+    userPrincipalName: "alice@example.com",
 });
 */
 
