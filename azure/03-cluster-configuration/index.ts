@@ -105,12 +105,12 @@ export const clusterSvcsNamespaceName = clusterSvcsNamespace.metadata.name;
 const appSvcsNamespace = new k8s.core.v1.Namespace("app-svcs", undefined, { provider, dependsOn: [adminRole] });
 export const appSvcsNamespaceName = appSvcsNamespace.metadata.name;
 
-const appNamespace = new k8s.core.v1.Namespace("apps", undefined, { provider, dependsOn: [adminRole] });
-export const appNamespaceName = appNamespace.metadata.name;
+const appsNamespace = new k8s.core.v1.Namespace("apps", undefined, { provider, dependsOn: [adminRole] });
+export const appsNamespaceName = appsNamespace.metadata.name;
 
 // Create a resource quota in the apps namespace.
 const quotaAppNamespace = new k8s.core.v1.ResourceQuota("apps", {
-    metadata: {namespace: appNamespaceName},
+    metadata: {namespace: appsNamespaceName},
     spec: {
         hard: {
             cpu: "20",
@@ -126,7 +126,7 @@ const quotaAppNamespace = new k8s.core.v1.ResourceQuota("apps", {
 // Create a limited role for the `pulumi:devs` to use in the apps namespace.
 const devsGroupRole = new k8s.rbac.v1.Role("pulumi-devs",
     {
-        metadata: { namespace: appNamespaceName },
+        metadata: { namespace: appsNamespaceName },
         rules: [
             {
                 apiGroups: [""],
@@ -145,7 +145,7 @@ const devsGroupRole = new k8s.rbac.v1.Role("pulumi-devs",
 
 // Bind the `pulumi:devs` RBAC group to the new, limited role.
 const devsGroupRoleBinding = new k8s.rbac.v1.RoleBinding("pulumi-devs", {
-    metadata: { namespace: appNamespaceName },
+    metadata: { namespace: appsNamespaceName },
     subjects: [{
         kind: "Group",
         name: config.adGroupDevs,
