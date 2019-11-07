@@ -60,7 +60,7 @@ util.bindToRole(`${devsName}-k8s`, devsIamServiceAccount, {
 const devsIamServiceAccountKey = util.createServiceAccountKey(`${devsName}Key`, devsIamServiceAccount);
 
 // Export the devs ServiceAccount client secret to authenticate as this service account.
-export const devsIamServiceAccountClientSecret = util.clientSecret(devsIamServiceAccountKey);
+export const devsIamServiceAccountSecret = util.clientSecret(devsIamServiceAccountKey);
 
 // Export the project name for downstream stacks.
 export const project = config.project;
