@@ -134,7 +134,12 @@ roleNamespaces.forEach((roleNs, index) => {
             rules: [
                 {
                     apiGroups: [""],
-                    resources: ["pods", "secrets", "services", "persistentvolumeclaims"],
+                    resources: ["configmap", "pods", "secrets", "services", "persistentvolumeclaims"],
+                    verbs: ["get", "list", "watch", "create", "update", "delete"],
+                },
+                {
+                    apiGroups: ["rbac.authorization.k8s.io"],
+                    resources: ["clusterrole", "clusterrolebinding", "role", "rolebinding"],
                     verbs: ["get", "list", "watch", "create", "update", "delete"],
                 },
                 {
