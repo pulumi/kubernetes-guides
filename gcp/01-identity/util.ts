@@ -18,13 +18,15 @@ import * as gcp from "@pulumi/gcp";
 export function bindToRole(
     name: string,
     sa: gcp.serviceAccount.Account,
-    args: { project: pulumi.Input<string>; role: pulumi.Input<string> },
-): gcp.projects.IAMBinding {
-    return new gcp.projects.IAMBinding(name, {
-        project: args.project,
-        role: args.role,
-        members: [sa.email.apply(email => `serviceAccount:${email}`)],
-    });
+    args: { project: pulumi.Input<string>; roles: string[]})
+{
+    args.roles.forEach((role, index) => {
+        new gcp.projects.IAMBinding(`${name}-${index}`, {
+            project: args.project,
+            role: role,
+            members: [sa.email.apply(email => `serviceAccount:${email}`)],
+        });
+    })
 }
 
 export function createServiceAccountKey(name: string, sa: gcp.serviceAccount.Account): gcp.serviceAccount.Key {
