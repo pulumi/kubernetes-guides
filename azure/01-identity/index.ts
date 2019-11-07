@@ -120,18 +120,25 @@ const admins = new azuread.Group("admins", {
     ],
 });
 
-/* That's how you can create a user
+/* Create a new user in AD.
 const dev = new azuread.User("k8s-dev", {
-    userPrincipalName: "k8xdev@example.com",
-    displayName: "K8x Dev",
+    userPrincipalName: "k8sdev@example.com",
+    displayName: "Kubernetes Dev",
     password: "Qjker21!G",
+});
+*/
+
+/* Get an existing AD user.
+const dev = azuread.getUser({
+    userPrincipalName: "mike@pulumi.com",
 });
 */
 
 const devs = new azuread.Group("devs", {
     name: "pulumi:devs",
     members: [
-        // Assign a dev user if created above: dev.objectId,
+        // Assign a new or existing user to the group.
+        // dev.objectId,
     ],
 });
 
