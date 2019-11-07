@@ -27,7 +27,7 @@ export function bindToRole(
     });
 }
 
-export function createCiKey(name: string, sa: gcp.serviceAccount.Account): gcp.serviceAccount.Key {
+export function createServiceAccountKey(name: string, sa: gcp.serviceAccount.Account): gcp.serviceAccount.Key {
     return new gcp.serviceAccount.Key(name, { serviceAccountId: sa.name });
 }
 
