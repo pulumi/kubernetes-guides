@@ -25,15 +25,15 @@ const adminsIamServiceAccount = new gcp.serviceAccount.Account(adminsName, {
 });
 
 // Bind the admin ServiceAccount to be a GKE cluster admin.
-const adminsIamRoleBinding = util.bindToRole(`${adminsName}ClusterAdmin`, adminsIamServiceAccount, {
+util.bindToRole(`${adminsName}-k8s`, adminsIamServiceAccount, {
     project: config.project,
-    role: "roles/container.clusterAdmin",
+    roles: ["roles/container.admin", "roles/container.clusterAdmin", "roles/container.developer"],
 });
 
 // Bind the admin ServiceAccount to be a CloudSQL admin.
-const cloudSqlIamRoleBinding = util.bindToRole(`${adminsName}CloudSqlAdmin`, adminsIamServiceAccount, {
+util.bindToRole(`${adminsName}-cloudsql`, adminsIamServiceAccount, {
     project: config.project,
-    role: "roles/cloudsql.admin",
+    roles: ["roles/cloudsql.admin"],
 });
 
 // Export the admins ServiceAccount key.
@@ -43,21 +43,21 @@ const adminsIamServiceAccountKey = util.createServiceAccountKey(`${adminsName}Ke
 export const adminsIamServiceAccountSecret = util.clientSecret(adminsIamServiceAccountKey);
 
 // Create the GKE cluster developers ServiceAccount.
-const devName = "devs";
-const devsIamServiceAccount = new gcp.serviceAccount.Account(devName, {
+const devsName = "devs";
+const devsIamServiceAccount = new gcp.serviceAccount.Account(devsName, {
     project: config.project,
-    accountId: `k8s-${devName}`,
+    accountId: `k8s-${devsName}`,
     displayName: "Kubernetes Developers",
 });
 
 // Bind the devs ServiceAccount to be a GKE cluster developer.
-const devsIamRoleBinding = util.bindToRole(devName, devsIamServiceAccount, {
+util.bindToRole(`${devsName}-k8s`, devsIamServiceAccount, {
     project: config.project,
-    role: "roles/container.developer",
+    roles: ["roles/container.developer"],
 });
 
 // Export the devs ServiceAccount key.
-const devsIamServiceAccountKey = util.createServiceAccountKey(`${devName}Key`, devsIamServiceAccount);
+const devsIamServiceAccountKey = util.createServiceAccountKey(`${devsName}Key`, devsIamServiceAccount);
 
 // Export the devs ServiceAccount client secret to authenticate as this service account.
 export const devsIamServiceAccountClientSecret = util.clientSecret(devsIamServiceAccountKey);
