@@ -8,14 +8,9 @@ import { config } from "./config";
 const name = pulumi.getProject();
 
 // Generate a strong password for the cluster.
-const password = new random.RandomString(
-    `${name}-password`,
-    {
-        length: 20,
-        special: true,
-    },
-    { additionalSecretOutputs: ["result"] },
-).result;
+const password = new random.RandomPassword(`${name}-password`, { 
+    length: 20,
+}).result;
 
 // Create the GKE cluster.
 const cluster = new gcp.container.Cluster(`${name}`, {
