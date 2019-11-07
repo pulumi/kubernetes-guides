@@ -27,13 +27,13 @@ const cluster = new gcp.container.Cluster(`${name}`, {
     podSecurityPolicyConfig: { enabled: true },
     network: config.networkName,
     subnetwork: config.subnetworkName,
-    minMasterVersion: "1.14.7-gke.10",
+    minMasterVersion: "1.14.7-gke.17",
     masterAuth: { username: "example-user", password: password },
 });
 
 const standardNodes = new gcp.container.NodePool("standard-nodes", {
     cluster: cluster.name,
-    version: "1.14.7-gke.10",
+    version: "1.14.7-gke.17",
     autoscaling: {minNodeCount: 0, maxNodeCount: 3},
     initialNodeCount: 2,
     nodeConfig: {
@@ -51,7 +51,7 @@ const standardNodes = new gcp.container.NodePool("standard-nodes", {
 
 const performantNodes = new gcp.container.NodePool("performant-nodes", {
     cluster: cluster.name,
-    version: "1.14.7-gke.10",
+    version: "1.14.7-gke.17",
     autoscaling: {minNodeCount: 0, maxNodeCount: 3},
     initialNodeCount: 2,
     nodeConfig: {
