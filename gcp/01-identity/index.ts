@@ -17,59 +17,51 @@ import * as gcp from "@pulumi/gcp";
 import * as config from "./config";
 import * as util from "./util";
 
-//
-// Assign infrastructure CI service account Cloud SQL and GKE cluster admin privileges -- i.e.,
-// privileges to add/delete these things, but not privileges to change apps inside.
-//
-
-const infraCiId = "infraCi";
-
-const infraCi = new gcp.serviceAccount.Account(infraCiId, {
+// Create the GKE cluster admins ServiceAccount.
+const adminsName = "admins";
+const adminsIamServiceAccount = new gcp.serviceAccount.Account(adminsName, {
     project: config.project,
-    accountId: "infra-ci",
-    displayName: "Infrastructure CI account",
+    accountId: `k8s-${adminsName}`,
+    displayName: "Kubernetes Admins",
 });
 
-const infraCiClusterAdminRole = util.bindToRole(`${infraCiId}ClusterAdmin`, infraCi, {
+// Bind the admin ServiceAccount to be a GKE cluster admin.
+const adminsIamRoleBinding = util.bindToRole(`${adminsName}ClusterAdmin`, adminsIamServiceAccount, {
     project: config.project,
     role: "roles/container.clusterAdmin",
 });
 
-const infraCiCloudSqlAdminRole = util.bindToRole(`${infraCiId}CloudSqlAdmin`, infraCi, {
+// Bind the admin ServiceAccount to be a CloudSQL admin.
+const cloudSqlIamRoleBinding = util.bindToRole(`${adminsName}CloudSqlAdmin`, adminsIamServiceAccount, {
     project: config.project,
     role: "roles/cloudsql.admin",
 });
 
-const infraCiKey = util.createCiKey(`${infraCiId}Key`, infraCi);
+// Export the admins ServiceAccount key.
+const adminsIamServiceAccountKey = util.createServiceAccountKey(`${adminsName}Key`, adminsIamServiceAccount);
 
-// Export client secret so that CI/CD systems can authenticate as this service account.
-export const infraCiClientSecret = util.clientSecret(infraCiKey);
+// Export the admins ServiceAccount client secret to authenticate as this service account.
+export const adminsIamServiceAccountSecret = util.clientSecret(adminsIamServiceAccountKey);
 
-//
-// Assign application CI service account container developer privileges -- i.e., privileges to
-// change anything in GKE, but not to delete/add GKE clusters.
-//
-
-const k8sAppDevCiId = "k8sAppDev";
-
-const k8sAppDevCi = new gcp.serviceAccount.Account(k8sAppDevCiId, {
+// Create the GKE cluster developers ServiceAccount.
+const devName = "devs";
+const devsIamServiceAccount = new gcp.serviceAccount.Account(devName, {
     project: config.project,
-    accountId: "k8s-app-dev-ci",
-    displayName: "Infrastructure CI account",
+    accountId: `k8s-${devName}`,
+    displayName: "Kubernetes Developers",
 });
 
-const k8sAppDevRole = util.bindToRole(k8sAppDevCiId, k8sAppDevCi, {
+// Bind the devs ServiceAccount to be a GKE cluster developer.
+const devsIamRoleBinding = util.bindToRole(devName, devsIamServiceAccount, {
     project: config.project,
     role: "roles/container.developer",
 });
 
-const k8sAppDevCiKey = util.createCiKey(`${k8sAppDevCiId}Key`, k8sAppDevCi);
+// Export the devs ServiceAccount key.
+const devsIamServiceAccountKey = util.createServiceAccountKey(`${devName}Key`, devsIamServiceAccount);
 
-// Export client secret so that CI/CD systems can authenticate as this service account.
-export const k8sAppDevCiClientSecret = util.clientSecret(k8sAppDevCiKey);
+// Export the devs ServiceAccount client secret to authenticate as this service account.
+export const devsIamServiceAccountClientSecret = util.clientSecret(devsIamServiceAccountKey);
 
-//
-// Export project name for downstream stacks.
-//
-
+// Export the project name for downstream stacks.
 export const project = config.project;
