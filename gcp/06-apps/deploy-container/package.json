@@ -1,0 +1,13 @@
+{
+    "name": "k8s-gcp-apps-deploy-container",
+    "devDependencies": {
+        "typescript": "^3.0.0",
+        "@types/node": "latest"
+    },
+    "dependencies": {
+        "@pulumi/docker": "latest",
+        "@pulumi/gcp": "latest",
+        "@pulumi/kubernetes": "latest",
+        "@pulumi/pulumi": "latest"
+    }
+}
