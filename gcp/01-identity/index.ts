@@ -18,9 +18,10 @@ import * as util from "./util";
 
 // Create the GKE cluster admins ServiceAccount.
 const adminsName = "admins";
+export const adminsAccountId = `k8s-${adminsName}`;
 const adminsIamServiceAccount = new gcp.serviceAccount.Account(adminsName, {
     project: config.project,
-    accountId: `k8s-${adminsName}`,
+    accountId: adminsAccountId,
     displayName: "Kubernetes Admins",
 });
 
@@ -44,11 +45,13 @@ export const adminsIamServiceAccountSecret = util.clientSecret(adminsIamServiceA
 
 // Create the GKE cluster developers ServiceAccount.
 const devsName = "devs";
+export const devsAccountId = `k8s-${devsName}`;
 const devsIamServiceAccount = new gcp.serviceAccount.Account(devsName, {
     project: config.project,
-    accountId: `k8s-${devsName}`,
+    accountId: devsAccountId,
     displayName: "Kubernetes Developers",
 });
+
 
 // Bind the devs ServiceAccount to be a GKE cluster developer.
 util.bindToRole(`${devsName}-k8s`, devsIamServiceAccount, {

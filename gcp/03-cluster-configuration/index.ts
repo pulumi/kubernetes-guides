@@ -168,17 +168,22 @@ const devsGroupRole = new k8s.rbac.v1.Role(`pulumi-devs`,
 );
 
 // Bind the `pulumi:devs` RBAC group to the new, limited role.
-const devsGroupRoleBinding = new k8s.rbac.v1.RoleBinding(`pulumi-devs`,
-    {
-        metadata: { namespace: appsNamespaceName },
-        subjects: [{
-            kind: "Group",
-            name: "pulumi:devs",
-        }],
-        roleRef: {
-            apiGroup: "rbac.authorization.k8s.io",
-            kind: "Role",
-            name: devsGroupRole.metadata.name,
-        },
-    }, { provider }
-);
+const devsGroupRoleBinding = pulumi.all([
+    config.project,
+    config.devsAccountId,
+]).apply(([project, devsAccountId]) => {
+    return new k8s.rbac.v1.RoleBinding(`pulumi-devel`,
+        {
+            metadata: { namespace: appsNamespaceName },
+            subjects: [{
+                kind: "User",
+                name: `${devsAccountId}@${project}.iam.gserviceaccount.com`,
+            }],
+            roleRef: {
+                apiGroup: "rbac.authorization.k8s.io",
+                kind: "Role",
+                name: devsGroupRole.metadata.name,
+            },
+        }, { provider }
+    )
+})
