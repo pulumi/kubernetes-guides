@@ -1,3 +1,0 @@
-name: k8s-az-apps
-description: Creates sample Application components for an AKS cluster.
-runtime: nodejs
