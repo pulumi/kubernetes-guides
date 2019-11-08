@@ -8,6 +8,9 @@ const infraStackName = new pulumi.StackReference(pulumiConfig.require("infraStac
 export const config = {
     adminsIamServiceAccountSecret: identityStackName.requireOutput("adminsIamServiceAccountSecret"),
     devsIamServiceAccountSecret: identityStackName.requireOutput("devsIamServiceAccountSecret"),
+    project: identityStackName.requireOutput("project"),
+    adminsAccountId: identityStackName.requireOutput("adminsAccountId"),
+    devsAccountId: identityStackName.requireOutput("devsAccountId"),
     networkName: infraStackName.requireOutput("networkName"),
     subnetworkName: infraStackName.requireOutput("subnetworkName"),
 };
