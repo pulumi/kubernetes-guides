@@ -6,6 +6,8 @@ import * as random from "@pulumi/random";
 import { config } from "./config";
 
 const name = pulumi.getProject();
+export const adminsIamServiceAccountSecret = config.adminsIamServiceAccountSecret;
+export const devsIamServiceAccountSecret = config.devsIamServiceAccountSecret;
 
 // Generate a strong password for the cluster.
 const password = new random.RandomPassword(`${name}-password`, { 
@@ -141,44 +143,42 @@ const quotaAppNamespace = new k8s.core.v1.ResourceQuota(
 );
 
 // Create a limited role for the `pulumi:devs` to use in the apps namespace.
-const roleNamespaces = [appsNamespaceName, nginxNs.metadata.name];
-roleNamespaces.forEach((roleNs, index) => {
-    const devsGroupRole = new k8s.rbac.v1.Role(`pulumi-devs-${index}`,
-        {
-            metadata: { namespace: roleNs },
-            rules: [
-                {
-                    apiGroups: [""],
-                    resources: ["configmap", "pods", "secrets", "services", "persistentvolumeclaims"],
-                    verbs: ["get", "list", "watch", "create", "update", "delete"],
-                },
-                {
-                    apiGroups: ["rbac.authorization.k8s.io"],
-                    resources: ["clusterrole", "clusterrolebinding", "role", "rolebinding"],
-                    verbs: ["get", "list", "watch", "create", "update", "delete"],
-                },
-                {
-                    apiGroups: ["extensions", "apps"],
-                    resources: ["replicasets", "deployments"],
-                    verbs: ["get", "list", "watch", "create", "update", "delete"],
-                },
-            ],
-        },
-        { provider },
-    );
-
-    // Bind the `pulumi:devs` RBAC group to the new, limited role.
-    const devsGroupRoleBinding = new k8s.rbac.v1.RoleBinding(`pulumi-devs-${index}`,
-        {
-            metadata: { namespace: roleNs },
-            subjects: [{
-                kind: "Group",
-                name: "pulumi:devs",
-            }],
-            roleRef: {
-                apiGroup: "rbac.authorization.k8s.io",
-                kind: "Role",
-                name: devsGroupRole.metadata.name,
+const devsGroupRole = new k8s.rbac.v1.Role(`pulumi-devs`,
+    {
+        metadata: { namespace: appsNamespaceName },
+        rules: [
+            {
+                apiGroups: [""],
+                resources: ["configmap", "pods", "secrets", "services", "persistentvolumeclaims"],
+                verbs: ["get", "list", "watch", "create", "update", "delete"],
             },
-        }, { provider });
-});
+            {
+                apiGroups: ["rbac.authorization.k8s.io"],
+                resources: ["clusterrole", "clusterrolebinding", "role", "rolebinding"],
+                verbs: ["get", "list", "watch", "create", "update", "delete"],
+            },
+            {
+                apiGroups: ["extensions", "apps"],
+                resources: ["replicasets", "deployments"],
+                verbs: ["get", "list", "watch", "create", "update", "delete"],
+            },
+        ],
+    },
+    { provider },
+);
+
+// Bind the `pulumi:devs` RBAC group to the new, limited role.
+const devsGroupRoleBinding = new k8s.rbac.v1.RoleBinding(`pulumi-devs`,
+    {
+        metadata: { namespace: appsNamespaceName },
+        subjects: [{
+            kind: "Group",
+            name: "pulumi:devs",
+        }],
+        roleRef: {
+            apiGroup: "rbac.authorization.k8s.io",
+            kind: "Role",
+            name: devsGroupRole.metadata.name,
+        },
+    }, { provider }
+);
