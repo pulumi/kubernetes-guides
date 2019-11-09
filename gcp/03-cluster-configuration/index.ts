@@ -210,3 +210,108 @@ const myPvc = new k8s.core.v1.PersistentVolumeClaim("mypvc", {
     },
     { provider: provider }
 );
+
+// Create a restrictive PodSecurityPolicy.
+const restrictivePSP = new k8s.policy.v1beta1.PodSecurityPolicy("demo-restrictive", {
+    metadata: { name: "demo-restrictive" },
+    spec: {
+        privileged: false,
+        hostNetwork: false,
+        allowPrivilegeEscalation: false,
+        defaultAllowPrivilegeEscalation: false,
+        hostPID: false,
+        hostIPC: false,
+        runAsUser: { rule: "RunAsAny" },
+        fsGroup: { rule: "RunAsAny" },
+        seLinux: { rule: "RunAsAny" },
+        supplementalGroups: { rule: "RunAsAny" },
+        volumes: [
+            "configMap",
+            "downwardAPI",
+            "emptyDir",
+            "persistentVolumeClaim",
+            "secret",
+            "projected"
+        ],
+        allowedCapabilities: [
+            "*"
+        ]
+    }
+});
+
+// Create a ClusterRole to use the restrictive PodSecurityPolicy.
+const restrictiveClusterRole = new k8s.rbac.v1.ClusterRole("demo-restrictive", {
+    metadata: { name: "demo-restrictive" },
+    rules: [
+        {
+            apiGroups: [
+                "policy"
+            ],
+            resourceNames: [
+                restrictivePSP.metadata.name,
+            ],
+            resources: [
+                "podsecuritypolicies"
+            ],
+            verbs: [
+                "use"
+            ]
+        }
+    ]
+});
+
+// Create a ClusterRoleBinding for the ServiceAccounts of Namespace kube-system
+// to the ClusterRole that uses the restrictive PodSecurityPolicy.
+const allowRestrictedKubeSystemCRB = new k8s.rbac.v1.ClusterRoleBinding("allow-restricted-kube-system", {
+    metadata: { name: "allow-restricted-kube-system" },
+    roleRef: {
+        apiGroup: "rbac.authorization.k8s.io",
+        kind: "ClusterRole",
+        name: restrictiveClusterRole.metadata.name
+    },
+    subjects: [
+        {
+            kind: "Group",
+            name: "system:serviceaccounts",
+            namespace: "kube-system"
+        }
+    ]
+});
+
+// Create a ClusterRoleBinding for the RBAC devs account ID
+// to the ClusterRole that uses the restrictive PodSecurityPolicy.
+const allowRestrictedAppsCRB = pulumi.all([
+    config.project,
+    config.devsAccountId,
+]).apply(([project, devsAccountId]) => {
+    return new k8s.rbac.v1.ClusterRoleBinding("allow-restricted-apps", {
+        metadata: { name: "allow-restricted-apps" },
+        roleRef: {
+            apiGroup: "rbac.authorization.k8s.io",
+            kind: "ClusterRole",
+            name: restrictiveClusterRole.metadata.name
+        },
+        subjects: [{
+            kind: "User",
+            name: `${devsAccountId}@${project}.iam.gserviceaccount.com`,
+            namespace: appsNamespaceName
+        }],
+    })});
+
+// Create a ClusterRoleBinding for the SeviceAccounts of Namespace ingress-nginx
+// to the ClusterRole that uses the privileged PodSecurityPolicy.
+const privilegedCRB = new k8s.rbac.v1.ClusterRoleBinding("privileged", {
+    metadata: { name: "allow-privileged-ingress-nginx" },
+    roleRef: {
+        apiGroup: "rbac.authorization.k8s.io",
+        kind: "ClusterRole",
+        name: "gce:podsecuritypolicy:privileged"
+    },
+    subjects: [
+        {
+            kind: "Group",
+            name: "system:serviceaccounts:ingress-nginx",
+            apiGroup: "rbac.authorization.k8s.io"
+        }
+    ]
+});
