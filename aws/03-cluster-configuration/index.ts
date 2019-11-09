@@ -283,3 +283,21 @@ const allowRestrictedAppsCRB = new k8s.rbac.v1.ClusterRoleBinding("allow-restric
         }
     ]
 });
+
+// Create a ClusterRoleBinding for the SeviceAccounts of Namespace ingress-nginx
+// to the ClusterRole that uses the privileged PodSecurityPolicy.
+const privilegedCRB = new k8s.rbac.v1.ClusterRoleBinding("privileged", {
+    metadata: { name: "allow-privileged-ingress-nginx" },
+    roleRef: {
+        apiGroup: "rbac.authorization.k8s.io",
+        kind: "ClusterRole",
+        name: "eks.privileged"
+    },
+    subjects: [
+        {
+            kind: "Group",
+            name: "system:serviceaccounts:ingress-nginx",
+            apiGroup: "rbac.authorization.k8s.io"
+        }
+    ]
+});
