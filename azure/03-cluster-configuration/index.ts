@@ -167,3 +167,26 @@ roleNamespaces.forEach((roleNs, index) => {
             },
         }, { provider });
 });
+
+// Create the premium StorageClass.
+const sc = new k8s.storage.v1.StorageClass("premium",
+    {
+        provisioner: "kubernetes.io/azure-disk",
+        parameters: {
+            "storageaccounttype": "Premium_LRS",
+            "kind": "Managed"
+        },
+    },
+    { provider: provider }
+);
+
+// Create a Persistent Volume Claim on the StorageClass.
+const myPvc = new k8s.core.v1.PersistentVolumeClaim("mypvc", {
+    spec: {
+        accessModes: ["ReadWriteOnce"],
+        storageClassName: sc.metadata.name,
+        resources: {requests: {storage: "1Gi"}}
+    }
+},
+    { provider: provider }
+);

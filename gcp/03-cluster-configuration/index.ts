@@ -187,3 +187,26 @@ const devsGroupRoleBinding = pulumi.all([
         }, { provider }
     )
 })
+
+// Create the standard StorageClass.
+const sc = new k8s.storage.v1.StorageClass("standard",
+    {
+        provisioner: "kubernetes.io/gce-pd",
+        parameters: {
+            "type": "pd-standard",
+            "replication-type": "none"
+        },
+    },
+    { provider: provider }
+);
+
+// Create a Persistent Volume Claim on the StorageClass.
+const myPvc = new k8s.core.v1.PersistentVolumeClaim("mypvc", {
+        spec: {
+            accessModes: ["ReadWriteOnce"],
+            storageClassName: sc.metadata.name,
+            resources: {requests: {storage: "1Gi"}}
+        }
+    },
+    { provider: provider }
+);
