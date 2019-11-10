@@ -9,7 +9,7 @@ const provider = new k8s.Provider("provider", {
     namespace: config.appsNamespaceName,
 });
 
-
+// Create a Secret with the database credentials.
 const databaseSecret = new k8s.core.v1.Secret("db-secret", {
     stringData: {
         // This example uses hard-coded values, but a real application would usually load the credentials
@@ -21,7 +21,7 @@ const databaseSecret = new k8s.core.v1.Secret("db-secret", {
     }
 }, { provider: provider });
 
-// Create a Deployment that includes the database credentials projected as environment variables.
+// Create a Deployment that uses the database credentials as environment variables.
 const appName = "nginx";
 const appLabels = { app: appName };
 const nginx = new k8s.apps.v1.Deployment(appName, {
@@ -65,30 +65,37 @@ const nginx = new k8s.apps.v1.Deployment(appName, {
     },
 }, { provider: provider });
 
+/*
+// Example using KX
 //
-// Example using kx
-//
-// const databaseSecretKx = new kx.Secret("db-secret", {
-//     stringData: {
-//         // This example uses hard-coded values, but a real application would usually load the credentials
-//         // as config values like this:
-//         // "database-username": config.databaseUsername,
-//         // "database-password": config.databasePassword,
-//         "database-username": "admin",
-//         "database-password": "supersecurepassword123",
-//     }
-// }, { provider: provider });
-// const nginxPB = new kx.PodBuilder(appName, {
-//     spec: {
-//         containers: [{
-//             image: "nginx",
-//             env: {
-//                 "DATABASE_USERNAME": databaseSecretKx.asEnvValue("database-username"),
-//                 "DATABASE_PASSWORD": databaseSecretKx.asEnvValue("database-password"),
-//             }
-//         }]
-//     }
-// });
-// const nginxDeployment = new kx.Deployment(appName, {
-//     spec: nginxPB.asDeploymentSpec({replicas: 1})
-// }, { provider: provider });
+// Create a KX Secret with the database credentials.
+const databaseSecretKx = new kx.Secret("db-secret", {
+    stringData: {
+        // This example uses hard-coded values, but a real application would usually load the credentials
+        // as config values like this:
+        // "database-username": config.databaseUsername,
+        // "database-password": config.databasePassword,
+        "database-username": "admin",
+        "database-password": "supersecurepassword123",
+    }
+}, { provider: provider });
+
+Create a KX PodBuilder for the demo app.
+const nginxPB = new kx.PodBuilder(appName, {
+    spec: {
+        containers: [{
+            image: "nginx",
+            env: {
+                "DATABASE_USERNAME": databaseSecretKx.asEnvValue("database-username"),
+                "DATABASE_PASSWORD": databaseSecretKx.asEnvValue("database-password"),
+            }
+        }]
+    }
+});
+
+Create a KX Deployment from the KX PodBuilder by transforming it into a DeploymentSpec.
+The deployment use database credentials as environment variables.
+const nginxDeployment = new kx.Deployment(appName, {
+    spec: nginxPB.asDeploymentSpec({replicas: 1})
+}, { provider: provider });
+*/

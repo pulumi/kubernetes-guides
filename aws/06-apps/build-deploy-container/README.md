@@ -1,9 +1,9 @@
 [![Deploy](https://get.pulumi.com/new/button.svg)](https://app.pulumi.com/new)
 
-# Build container image and push to private registry on Azure
+# Build container image and push to private registry on AWS
 
 This example builds a container image of a simple Node app and pushes the image
-to a private registry on Azure. The image is used to create a Kubernetes
+to a private registry on ECR. The image is used to create a Kubernetes
 Deployment.
 
 ## Deploying the App

@@ -12,27 +12,44 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import * as azure from "@pulumi/azure";
 import * as docker from "@pulumi/docker";
-import * as gcp from "@pulumi/gcp";
 import * as k8s from "@pulumi/kubernetes";
 import * as pulumi from "@pulumi/pulumi";
 import { config } from "./config";
 
-const registry = gcp.container.getRegistryRepository();
+// Create an Azure Resource Group
+const resourceGroup = new azure.core.ResourceGroup("samples");
 
+// Create a registry in ACR.
+const registry = new azure.containerservice.Registry("myregistry", {
+    resourceGroupName: resourceGroup.name,
+    sku: "Basic",
+    adminEnabled: true,
+});
+
+// Build a Docker image from a local Dockerfile context in the
+// './node-app' directory, and push it to the registry.
 const customImage = "node-app";
 const appImage = new docker.Image(customImage, {
-    imageName: pulumi.interpolate`${registry.repositoryUrl}/${customImage}:v1.0.0`,
+    imageName: pulumi.interpolate`${registry.loginServer}/${customImage}:v1.0.0`,
     build: {
         context: `./${customImage}`,
     },
+    registry: {
+        server: registry.loginServer,
+        username: registry.adminUsername,
+        password: registry.adminPassword,
+    },
 });
 
+// Create a k8s provider.
 const provider = new k8s.Provider("provider", {
     kubeconfig: config.kubeconfig,
     namespace: config.appsNamespaceName,
 });
 
+// Create a Deployment of the built container.
 const appLabels = { app: customImage };
 const appDeployment = new k8s.apps.v1.Deployment("app", {
     spec: {
