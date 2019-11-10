@@ -1,5 +1,5 @@
 {
-    "name": "deployment-secret",
+    "name": "daemonset",
     "devDependencies": {
         "@types/node": "^8.0.0"
     },
