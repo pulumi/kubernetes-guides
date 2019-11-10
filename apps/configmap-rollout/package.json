@@ -1,5 +1,5 @@
 {
-    "name": "configmap-rollout",
+    "name": "k8s-apps-configmap-rollout",
     "devDependencies": {
         "@types/node": "^8.0.0"
     },
