@@ -1,5 +1,5 @@
 {
-    "name": "job",
+    "name": "k8s-apps-job",
     "devDependencies": {
         "@types/node": "^8.0.0"
     },

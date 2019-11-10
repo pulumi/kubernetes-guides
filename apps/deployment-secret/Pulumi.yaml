@@ -1,3 +1,3 @@
-name: deployment-secret
+name: k8s-apps-deployment-secret
 description: A Deployment that references a secret value as an environment variable.
 runtime: nodejs

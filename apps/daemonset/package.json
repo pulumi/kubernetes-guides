@@ -1,5 +1,5 @@
 {
-    "name": "daemonset",
+    "name": "k8s-apps-daemonset",
     "devDependencies": {
         "@types/node": "^8.0.0"
     },

@@ -1,3 +1,3 @@
-name: job
+name: k8s-apps-job
 description: Show how to create a Job
 runtime: nodejs

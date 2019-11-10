@@ -1,5 +1,5 @@
 {
-    "name": "deployment-secret",
+    "name": "k8s-apps-deployment-secret",
     "devDependencies": {
         "@types/node": "^8.0.0"
     },
