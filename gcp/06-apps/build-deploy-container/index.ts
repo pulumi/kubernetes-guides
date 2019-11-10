@@ -12,23 +12,32 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import * as awsx from "@pulumi/awsx";
+import * as docker from "@pulumi/docker";
+import * as gcp from "@pulumi/gcp";
 import * as k8s from "@pulumi/kubernetes";
+import * as pulumi from "@pulumi/pulumi";
 import { config } from "./config";
 
-// Create a repository.
-const repo = new awsx.ecr.Repository("my-repo");
+// Get the GCP project registry repository.
+const registry = gcp.container.getRegistryRepository();
 
-// Build an image from the "./node-app" directory (relative to our project and containing Dockerfile),
-// and publish it to our ECR repository provisioned above.
+// Build a Docker image from a local Dockerfile context in the
+// './node-app' directory, and push it to the registry.
 const customImage = "node-app";
-const appImage = repo.buildAndPushImage(`./${customImage}`);
+const appImage = new docker.Image(customImage, {
+    imageName: pulumi.interpolate`${registry.repositoryUrl}/${customImage}:v1.0.0`,
+    build: {
+        context: `./${customImage}`,
+    },
+});
 
+// Create a k8s provider.
 const provider = new k8s.Provider("provider", {
     kubeconfig: config.kubeconfig,
     namespace: config.appsNamespaceName,
 });
 
+// Create a Deployment of the built container.
 const appLabels = { app: customImage };
 const appDeployment = new k8s.apps.v1.Deployment("app", {
     spec: {
@@ -39,7 +48,7 @@ const appDeployment = new k8s.apps.v1.Deployment("app", {
             spec: {
                 containers: [{
                     name: customImage,
-                    image: appImage,
+                    image: appImage.imageName,
                     ports: [{name: "http", containerPort: 80}],
                 }],
             }
