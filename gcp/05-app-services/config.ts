@@ -4,11 +4,12 @@ let pulumiConfig = new pulumi.Config();
 
 // Existing Pulumi stack reference in the format:
 // <organization>/<project>/<stack> e.g. "myUser/myProject/dev"
+const identityStackRef = new pulumi.StackReference(pulumiConfig.require("identityStackRef"));
 const infraStackRef = new pulumi.StackReference(pulumiConfig.require("infraStackRef"));
 const clusterStackRef = new pulumi.StackReference(pulumiConfig.require("clusterStackRef"));
 
 export const config = {
-    project: infraStackRef.requireOutput("project"),
+    project: identityStackRef.requireOutput("project"),
 
     // Cluster
     kubeconfig: clusterStackRef.requireOutput("kubeconfig"),

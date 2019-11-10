@@ -1,12 +1,11 @@
 {
-    "name": "k8s-aws-app-svcs",
+    "name": "k8s-gke-apps-svcs",
     "devDependencies": {
         "@types/node": "latest",
         "typescript": "^3.0.0"
     },
     "dependencies": {
-        "@pulumi/aws": "latest",
-        "@pulumi/gcp": "^1.4.1",
+        "@pulumi/gcp": "latest",
         "@pulumi/kubernetes": "latest",
         "@pulumi/pulumi": "latest",
         "@pulumi/random": "latest"
