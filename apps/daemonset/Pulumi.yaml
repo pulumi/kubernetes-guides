@@ -1,0 +1,3 @@
+name: daemonset
+description: Show how to create a DaemonSet
+runtime: nodejs
