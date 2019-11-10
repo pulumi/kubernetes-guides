@@ -29,13 +29,7 @@ Enter a stack name: configmap-rollout-dev
 ```
 
 This example will attempt to expose the `nginx` deployment to the Internet with
-a `Service` of type `LoadBalancer`. Since minikube does not support
-`LoadBalancer`, the application already knows to use type `ClusterIP` instead;
-all you need to do is to tell it whether you're deploying to minikube:
-
-```sh
-pulumi config set isMinikube <value>
-```
+a `Service` of type `LoadBalancer`.
 
 Perform the deployment:
 
@@ -140,10 +134,6 @@ Permalink: https://app.pulumi.com/hausdorff/configmap-rollout-dev/updates/13
 ```
 
 Now, if we `curl` the IP address once more, we see that it points at google.com!
-
-> _Note_: minikube does not support type `LoadBalancer`; if you are deploying to minikube, make sure
-> to run `kubectl port-forward svc/frontend 8080:80` to forward the cluster port to the local
-> machine and access the service via `localhost:8080`.
 
 ```sh
 $ curl -sL $(pulumi stack output frontendIp) | grep -o "<title>Google</title>"
