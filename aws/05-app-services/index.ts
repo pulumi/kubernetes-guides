@@ -11,10 +11,9 @@ const securityGroupIds = config.securityGroupIds;
 const clusterName = config.clusterName;
 
 // Generate a strong password for the Postgres DB.
-const postgresDbPassword = new random.RandomString(`${projectName}-db-password`, {
-	length: 20,
-	special: true
-}, {additionalSecretOutputs: ["result"]}).result;
+const password = new random.RandomPassword(`${projectName}-password`, {
+    length: 20,
+}).result;
 
 // Create a Postgres DB instance of RDS.
 const dbSubnets = new aws.rds.SubnetGroup(`${projectName}-subnets`, {
@@ -28,7 +27,7 @@ const db = new aws.rds.Instance("postgresdb", {
     vpcSecurityGroupIds: securityGroupIds,
     name: "testdb",
     username: "alice",
-    password: postgresDbPassword,
+    password: password,
     skipFinalSnapshot: true,
 });
 
@@ -40,7 +39,7 @@ const dbConn = new k8s.core.v1.Secret("postgres-db-conn",
             host: db.address.apply(addr => Buffer.from(addr).toString("base64")),
             port: db.port.apply(port => Buffer.of(port).toString("base64")),
             username: db.username.apply(user => Buffer.from(user).toString("base64")),
-            password: postgresDbPassword.apply(pass => Buffer.from(pass).toString("base64")),
+            password: password.apply(pass => Buffer.from(pass).toString("base64")),
         },
     },
     {provider: provider},

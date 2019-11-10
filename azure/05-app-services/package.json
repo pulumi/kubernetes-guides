@@ -1,5 +1,5 @@
 {
-    "name": "k8s-az-appservices",
+    "name": "k8s-az-app-svcs",
     "devDependencies": {
         "typescript": "^3.0.0",
         "@types/node": "latest"

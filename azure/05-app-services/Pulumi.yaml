@@ -1,3 +1,3 @@
-name: k8s-az-appservices
+name: k8s-az-apps-svcs
 description: Creates Application Services for an AKS cluster.
 runtime: nodejs
