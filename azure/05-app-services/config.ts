@@ -25,5 +25,9 @@ export const config = {
 
     // AKS Cluster
     clusterId:                clusterStackRef.getOutput("clusterId"),
-    kubeconfig:               clusterStackRef.getOutput("kubeconfig"),
+    kubeconfig:               clusterStackRef.getOutput("kubeconfigAdmin"),
+    clusterName: clusterStackRef.getOutput("clusterName"),
+    clusterSvcsNamespaceName: clusterStackRef.getOutput("clusterSvcsNamespaceName"),
+    appSvcsNamespaceName: clusterStackRef.getOutput("appSvcsNamespaceName"),
+    appsNamespaceName: clusterStackRef.getOutput("appsNamespaceName"),
 };

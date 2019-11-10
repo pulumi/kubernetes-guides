@@ -34,7 +34,7 @@ const provider = new k8s.Provider(`${name}-aks`, {
 const mongoConnStrings = new k8s.core.v1.Secret(
     "mongo-secrets",
     {
-        metadata: { name: "mongo-secrets" },
+        metadata: { name: "mongo-secrets", namespace: config.appsNamespaceName},
         data: mongoHelpers.parseConnString(cosmosdb.connectionStrings),
     },
     { provider },
