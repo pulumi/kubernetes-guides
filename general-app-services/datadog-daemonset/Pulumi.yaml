@@ -1,0 +1,3 @@
+name: k8s-apps-daemonset-datadog
+description: A DaemonSet that deploys DataDog on all nodes.
+runtime: nodejs
