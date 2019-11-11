@@ -1,3 +1,0 @@
-name: k8s-app-svcs
-description: Deploys general Kubernetes app services.
-runtime: nodejs
