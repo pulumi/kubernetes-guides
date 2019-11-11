@@ -1,0 +1,3 @@
+name: k8s-apps-pod-sidecar
+description: Create a Pod with a Sidecar container.
+runtime: nodejs
