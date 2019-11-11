@@ -7,7 +7,7 @@ import { config } from "./config";
 // Create a k8s Provider, and scope it to the App Services Namespace.
 const provider = new k8s.Provider("provider", {
     kubeconfig: config.kubeconfig,
-    namespace: config.appSvcsNamespaceName,
+    namespace: config.clusterSvcsNamespaceName,
 });
 
 // Create a Deployment that uses the database credentials as environment variables.
