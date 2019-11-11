@@ -56,7 +56,7 @@ const cluster = new eks.Cluster(`${projectName}`, {
 });
 
 // Export the cluster details.
-export const kubeconfig = cluster.kubeconfig;
+export const kubeconfig = cluster.kubeconfig.apply(JSON.stringify);
 export const clusterName = cluster.core.cluster.name;
 export const region = aws.config.region;
 export const securityGroupIds = [cluster.nodeSecurityGroup.id];
