@@ -1,7 +1,5 @@
 // Copyright 2016-2019, Pulumi Corporation.  All rights reserved.
-
 import * as k8s from "@pulumi/kubernetes";
-// import * as kx from "@pulumi/kubernetesx";
 import { config } from "./config";
 
 // Create a k8s Provider, and scope it to the App Services Namespace.
@@ -10,7 +8,6 @@ const provider = new k8s.Provider("provider", {
     namespace: config.clusterSvcsNamespaceName,
 });
 
-// Create a Deployment that uses the database credentials as environment variables.
 const appName = "datadog";
 const appLabels = { app: appName };
 
