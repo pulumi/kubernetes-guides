@@ -3,10 +3,8 @@ import * as pulumi from "@pulumi/pulumi";
 import { config } from "./config";
 
 const projectName = pulumi.getProject();
-
-const providerName = "eks" // set to "" for AKS or GKE
 const provider = new k8s.Provider("provider", {
-    kubeconfig: providerName === "eks" ? config.kubeconfig.apply(JSON.stringify): config.kubeconfig,
+    kubeconfig: config.kubeconfig,
 });
 export const appsNamespaceName = config.appsNamespaceName
 
