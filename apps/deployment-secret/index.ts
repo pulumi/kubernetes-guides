@@ -12,12 +12,8 @@ const provider = new k8s.Provider("provider", {
 // Create a Secret with the database credentials.
 const databaseSecret = new k8s.core.v1.Secret("db-secret", {
     stringData: {
-        // This example uses hard-coded values, but a real application would usually load the credentials
-        // as config values like this:
-        // "database-username": config.databaseUsername,
-        // "database-password": config.databasePassword,
-        "database-username": "admin",
-        "database-password": "supersecurepassword123",
+        "database-username": config.databaseUsername,
+        "database-password": config.databasePassword,
     }
 }, { provider: provider });
 
@@ -71,12 +67,8 @@ const nginx = new k8s.apps.v1.Deployment(appName, {
 // Create a KX Secret with the database credentials.
 const databaseSecretKx = new kx.Secret("db-secret", {
     stringData: {
-        // This example uses hard-coded values, but a real application would usually load the credentials
-        // as config values like this:
-        // "database-username": config.databaseUsername,
-        // "database-password": config.databasePassword,
-        "database-username": "admin",
-        "database-password": "supersecurepassword123",
+        "database-username": config.databaseUsername,
+        "database-password": config.databasePassword,
     }
 }, { provider: provider });
 

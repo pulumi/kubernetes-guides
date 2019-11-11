@@ -19,4 +19,8 @@ export const config = {
     clusterSvcsNamespaceName: clusterStackRef.getOutput("clusterSvcsNamespaceName"),
     appSvcsNamespaceName: clusterStackRef.getOutput("appSvcsNamespaceName"),
     appsNamespaceName: clusterStackRef.getOutput("appsNamespaceName"),
+
+    // Misc
+    databaseUsername: "admin",
+    databasePassword: "supersecurepassword123",
 };
