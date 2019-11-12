@@ -14,6 +14,7 @@
 
 import * as awsx from "@pulumi/awsx";
 import * as k8s from "@pulumi/kubernetes";
+import * as kx from "@pulumi/kubernetesx";
 import { config } from "./config";
 
 // Create a repository.
@@ -47,4 +48,21 @@ const appDeployment = new k8s.apps.v1.Deployment("app", {
             }
         },
     }
+}, { provider: provider });
+
+//
+// Example using kx.
+//
+
+// Define the Pod for the Deployment.
+const pb = new kx.PodBuilder({
+    containers: [{
+        image: appImage,
+        ports: { "http": 80 },
+    }],
+});
+
+// Create a Deployment of the Pod defined by the PodBuilder.
+const appDeploymentKx = new kx.Deployment("app-kx", {
+    spec: pb.asDeploymentSpec(),
 }, { provider: provider });
