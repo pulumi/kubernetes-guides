@@ -122,8 +122,7 @@ export const appsNamespaceName = appsNamespace.metadata.name;
 const nginxNs = new k8s.core.v1.Namespace("ingress-nginx", {metadata: {name: "ingress-nginx"}}, { provider: provider});
 
 // Create a resource quota in the apps namespace.
-const quotaAppNamespace = new k8s.core.v1.ResourceQuota(
-    "apps",
+const quotaAppNamespace = new k8s.core.v1.ResourceQuota("apps",
     {
         metadata: { namespace: appsNamespaceName },
         spec: {
@@ -136,11 +135,7 @@ const quotaAppNamespace = new k8s.core.v1.ResourceQuota(
                 services: "5",
             },
         },
-    },
-    {
-        provider: provider,
-    },
-);
+}, { provider: provider });
 
 // Create a limited role for the `pulumi:devs` to use in the apps namespace.
 const devsGroupRole = new k8s.rbac.v1.Role(`pulumi-devs`,
@@ -163,9 +158,7 @@ const devsGroupRole = new k8s.rbac.v1.Role(`pulumi-devs`,
                 verbs: ["get", "list", "watch", "create", "update", "delete"],
             },
         ],
-    },
-    { provider },
-);
+}, { provider: provider });
 
 // Bind the `pulumi:devs` RBAC group to the new, limited role.
 const devsGroupRoleBinding = pulumi.all([
@@ -184,9 +177,7 @@ const devsGroupRoleBinding = pulumi.all([
                 kind: "Role",
                 name: devsGroupRole.metadata.name,
             },
-        }, { provider }
-    )
-})
+}, { provider: provider });
 
 // Create the standard StorageClass.
 const sc = new k8s.storage.v1.StorageClass("standard",
@@ -196,9 +187,7 @@ const sc = new k8s.storage.v1.StorageClass("standard",
             "type": "pd-standard",
             "replication-type": "none"
         },
-    },
-    { provider: provider }
-);
+}, { provider: provider });
 
 // Create a Persistent Volume Claim on the StorageClass.
 const myPvc = new k8s.core.v1.PersistentVolumeClaim("mypvc", {
@@ -207,9 +196,7 @@ const myPvc = new k8s.core.v1.PersistentVolumeClaim("mypvc", {
             storageClassName: sc.metadata.name,
             resources: {requests: {storage: "1Gi"}}
         }
-    },
-    { provider: provider }
-);
+}, { provider: provider });
 
 // Create a restrictive PodSecurityPolicy.
 const restrictivePSP = new k8s.policy.v1beta1.PodSecurityPolicy("demo-restrictive", {
@@ -258,7 +245,7 @@ const restrictiveClusterRole = new k8s.rbac.v1.ClusterRole("demo-restrictive", {
             ]
         }
     ]
-});
+}, { provider: provider });
 
 // Create a ClusterRoleBinding for the ServiceAccounts of Namespace kube-system
 // to the ClusterRole that uses the restrictive PodSecurityPolicy.
@@ -276,7 +263,7 @@ const allowRestrictedKubeSystemCRB = new k8s.rbac.v1.ClusterRoleBinding("allow-r
             namespace: "kube-system"
         }
     ]
-});
+}, { provider: provider });
 
 // Create a ClusterRoleBinding for the RBAC devs account ID
 // to the ClusterRole that uses the restrictive PodSecurityPolicy.
@@ -296,7 +283,8 @@ const allowRestrictedAppsCRB = pulumi.all([
             name: `${devsAccountId}@${project}.iam.gserviceaccount.com`,
             namespace: appsNamespaceName
         }],
-    })});
+    }, { provider: provider });
+});
 
 // Create a ClusterRoleBinding for the SeviceAccounts of Namespace ingress-nginx
 // to the ClusterRole that uses the privileged PodSecurityPolicy.
@@ -314,4 +302,4 @@ const privilegedCRB = new k8s.rbac.v1.ClusterRoleBinding("privileged", {
             apiGroup: "rbac.authorization.k8s.io"
         }
     ]
-});
+}, { provider: provider });

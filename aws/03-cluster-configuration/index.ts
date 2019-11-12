@@ -225,7 +225,8 @@ const restrictivePSP = new k8s.policy.v1beta1.PodSecurityPolicy("demo-restrictiv
             "*"
         ]
     }
-});
+}, { provider: cluster.provider });
+
 
 // Create a ClusterRole to use the restrictive PodSecurityPolicy.
 const restrictiveClusterRole = new k8s.rbac.v1.ClusterRole("demo-restrictive", {
@@ -246,7 +247,7 @@ const restrictiveClusterRole = new k8s.rbac.v1.ClusterRole("demo-restrictive", {
             ]
         }
     ]
-});
+}, { provider: cluster.provider });
 
 // Create a ClusterRoleBinding for the ServiceAccounts of Namespace kube-system
 // to the ClusterRole that uses the restrictive PodSecurityPolicy.
@@ -264,7 +265,7 @@ const allowRestrictedKubeSystemCRB = new k8s.rbac.v1.ClusterRoleBinding("allow-r
             namespace: "kube-system"
         }
     ]
-});
+}, { provider: cluster.provider });
 
 // Create a ClusterRoleBinding for the RBAC group pulumi:devs
 // to the ClusterRole that uses the restrictive PodSecurityPolicy.
@@ -282,7 +283,7 @@ const allowRestrictedAppsCRB = new k8s.rbac.v1.ClusterRoleBinding("allow-restric
             namespace: appsNamespaceName
         }
     ]
-});
+}, { provider: cluster.provider });
 
 // Create a ClusterRoleBinding for the SeviceAccounts of Namespace ingress-nginx
 // to the ClusterRole that uses the privileged PodSecurityPolicy.
@@ -300,4 +301,4 @@ const privilegedCRB = new k8s.rbac.v1.ClusterRoleBinding("privileged", {
             apiGroup: "rbac.authorization.k8s.io"
         }
     ]
-});
+}, { provider: cluster.provider });

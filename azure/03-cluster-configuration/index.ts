@@ -176,9 +176,7 @@ const sc = new k8s.storage.v1.StorageClass("premium",
             "storageaccounttype": "Premium_LRS",
             "kind": "Managed"
         },
-    },
-    { provider: provider }
-);
+}, { provider: provider });
 
 // Create a Persistent Volume Claim on the StorageClass.
 const myPvc = new k8s.core.v1.PersistentVolumeClaim("mypvc", {
@@ -187,9 +185,7 @@ const myPvc = new k8s.core.v1.PersistentVolumeClaim("mypvc", {
         storageClassName: sc.metadata.name,
         resources: {requests: {storage: "1Gi"}}
     }
-},
-    { provider: provider }
-);
+}, { provider: provider });
 
 // Create a restrictive PodSecurityPolicy.
 const restrictivePSP = new k8s.policy.v1beta1.PodSecurityPolicy("demo-restrictive", {
@@ -217,7 +213,7 @@ const restrictivePSP = new k8s.policy.v1beta1.PodSecurityPolicy("demo-restrictiv
             "*"
         ]
     }
-});
+}, { provider: provider });
 
 // Create a ClusterRole to use the restrictive PodSecurityPolicy.
 const restrictiveClusterRole = new k8s.rbac.v1.ClusterRole("demo-restrictive", {
@@ -238,7 +234,7 @@ const restrictiveClusterRole = new k8s.rbac.v1.ClusterRole("demo-restrictive", {
             ]
         }
     ]
-});
+}, { provider: provider });
 
 // Create a ClusterRoleBinding for the ServiceAccounts of Namespace kube-system
 // to the ClusterRole that uses the restrictive PodSecurityPolicy.
@@ -274,7 +270,7 @@ const allowRestrictedAppsCRB = new k8s.rbac.v1.ClusterRoleBinding("allow-restric
             namespace: appsNamespaceName
         }
     ]
-});
+}, { provider: provider });
 
 // Create a ClusterRoleBinding for the SeviceAccounts of Namespace ingress-nginx
 // to the ClusterRole that uses the privileged PodSecurityPolicy.
@@ -292,4 +288,4 @@ const privilegedCRB = new k8s.rbac.v1.ClusterRoleBinding("privileged", {
             apiGroup: "rbac.authorization.k8s.io"
         }
     ]
-});
+}, { provider: provider });
