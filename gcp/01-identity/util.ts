@@ -33,6 +33,6 @@ export function createServiceAccountKey(name: string, sa: gcp.serviceAccount.Acc
     return new gcp.serviceAccount.Key(name, { serviceAccountId: sa.name });
 }
 
-export function clientSecret(key: gcp.serviceAccount.Key): pulumi.Output<string> {
+export function clientSecret(key: gcp.serviceAccount.Key): pulumi.Output<any> {
     return key.privateKey.apply(key => JSON.parse(Buffer.from(key, "base64").toString("ascii")));
 }

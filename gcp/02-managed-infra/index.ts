@@ -17,8 +17,6 @@ import * as gcp from "@pulumi/gcp";
 import * as k8s from "@pulumi/kubernetes";
 import * as random from "@pulumi/random";
 
-import * as config from "./config";
-
 const projectName = pulumi.getProject();
 
 // Create a new network.
