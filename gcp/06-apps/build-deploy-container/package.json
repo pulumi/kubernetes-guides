@@ -8,6 +8,7 @@
         "@pulumi/docker": "latest",
         "@pulumi/gcp": "latest",
         "@pulumi/kubernetes": "latest",
+        "@pulumi/kubernetesx": "^0.1.0",
         "@pulumi/pulumi": "latest"
     }
 }
