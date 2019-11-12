@@ -43,7 +43,7 @@ After cloning this repo, from this working directory, run these commands:
     The stack reference for the example below is: `myUser/k8s-az-identity/dev-1573587501`
 
     ```bash
-    user@pulumi:~/pulumi/kubernetes-the-prod-way/aws/01-identity$ pul stack ls
+    user@pulumi:~/pulumi/kubernetes-the-prod-way/azure/01-identity$ pul stack ls
     NAME             LAST UPDATE    RESOURCE COUNT  URL
     dev-1573587501*  4 minutes ago  13              https://app.pulumi.com/myUser/k8s-az-identity/dev-1573587501
     ```
