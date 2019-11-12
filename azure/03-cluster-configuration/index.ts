@@ -252,7 +252,7 @@ const allowRestrictedKubeSystemCRB = new k8s.rbac.v1.ClusterRoleBinding("allow-r
             namespace: "kube-system"
         }
     ]
-});
+}, { provider: provider });
 
 // Create a ClusterRoleBinding for the RBAC group pulumi:devs
 // to the ClusterRole that uses the restrictive PodSecurityPolicy.

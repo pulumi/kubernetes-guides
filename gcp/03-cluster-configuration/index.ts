@@ -224,7 +224,7 @@ const restrictivePSP = new k8s.policy.v1beta1.PodSecurityPolicy("demo-restrictiv
             "*"
         ]
     }
-});
+}, { provider: provider });
 
 // Create a ClusterRole to use the restrictive PodSecurityPolicy.
 const restrictiveClusterRole = new k8s.rbac.v1.ClusterRole("demo-restrictive", {
