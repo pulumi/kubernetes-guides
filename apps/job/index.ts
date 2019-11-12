@@ -27,11 +27,9 @@ const exampleJob = new k8s.batch.v1.Job("example-job", {
     }
 }, { provider: provider });
 
-//
 // Example using kx.
-//
 
-// Define the Pod for the Job.
+// Create the PodBuilder for the Job.
 const pb = new kx.PodBuilder({
     containers: [{
         name: "pi",
@@ -41,7 +39,7 @@ const pb = new kx.PodBuilder({
     restartPolicy: "Never",
 });
 
-// Create an example Job using the Pod defined by the PodBuilder.
+// Create a Job using the Pod defined by the PodBuilder.
 const exampleJobKx = new kx.Job("example-job-kx", {
     spec: pb.asJobSpec(),
 }, { provider: provider });

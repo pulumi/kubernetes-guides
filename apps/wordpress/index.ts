@@ -16,11 +16,13 @@ import * as k8s from "@pulumi/kubernetes";
 import * as random from "@pulumi/random";
 import { config } from "./config";
 
+// Create a k8s Provider.
 const provider = new k8s.Provider("provider", {
     kubeconfig: config.kubeconfig,
     namespace: config.appsNamespaceName,
 });
 
+// Create the DB secret for MariaDB, the backing storage for WordPress.
 const mariadbSecret = new k8s.core.v1.Secret("mariadb", {
     stringData: {
         "mariadb-root-password": new random.RandomPassword("mariadb-root-pw", {
@@ -30,6 +32,7 @@ const mariadbSecret = new k8s.core.v1.Secret("mariadb", {
     }
 }, { provider: provider });
 
+// Create the DB Secret for the WordPress admin.
 const wordpressSecret = new k8s.core.v1.Secret("wordpress", {
     stringData: {
         "wordpress-password": new random.RandomPassword("wordpress-pw", {
@@ -37,6 +40,7 @@ const wordpressSecret = new k8s.core.v1.Secret("wordpress", {
     }
 }, { provider: provider });
 
+// Create a ConfigMap of the MariaDB settings.
 const mariadbCM = new k8s.core.v1.ConfigMap("mariadb", {
     data: {
         "my.cnf": `
@@ -67,6 +71,7 @@ pid-file=/opt/bitnami/mariadb/tmp/mysqld.pid
     }
 }, { provider: provider });
 
+// Create a PersistentVolumeClaim for WordPress on the MariaDB volume.
 const wordpressPVC = new k8s.core.v1.PersistentVolumeClaim("wordpress", {
     spec: {
         accessModes: ["ReadWriteOnce"],
@@ -78,6 +83,7 @@ const wordpressPVC = new k8s.core.v1.PersistentVolumeClaim("wordpress", {
     }
 }, { provider: provider });
 
+// Create a Service for MariaDB.
 const mariadbSvc = new k8s.core.v1.Service("mariadb", {
     metadata: {
         name: "mariadb",
@@ -99,6 +105,7 @@ const mariadbSvc = new k8s.core.v1.Service("mariadb", {
     }
 }, { provider: provider });
 
+// Create a Service for Wordpress.
 const wordpressSvc = new k8s.core.v1.Service("wordpress", {
     spec: {
         type: "LoadBalancer",
@@ -236,6 +243,7 @@ const wordpress = new k8s.apps.v1.Deployment("wordpress", {
     }
 }, { provider: provider });
 
+// Create a StatefulSet of MariaDB to run locally on the cluster.
 const mariadb = new k8s.apps.v1.StatefulSet("mariadb", {
     spec: {
         selector: {
