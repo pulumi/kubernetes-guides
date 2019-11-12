@@ -6,6 +6,6 @@
     },
     "dependencies": {
         "@pulumi/aws": "latest",
-        "@pulumi/pulumi": "latest",
+        "@pulumi/pulumi": "latest"
     }
 }
