@@ -36,7 +36,7 @@ attachLogPolicies("stdRpa", stdNodegroupIamRoleName);
 attachLogPolicies("perfRpa", perfNodegroupIamRoleName);
 
 // Deploy fluentd using the Helm chart.
-const eksProvider = new k8s.Provider("eksProvider", {kubeconfig: config.kubeconfig.apply(JSON.stringify)});
+const provider = new k8s.Provider("provider", {kubeconfig: config.kubeconfig});
 const fluentdCloudWatchLogGroup = new aws.cloudwatch.LogGroup(name);
 export let fluentdCloudWatchLogGroupName = fluentdCloudWatchLogGroup.name;
 const fluentdCloudwatch = new k8s.helm.v2.Chart(name,
@@ -62,5 +62,5 @@ const fluentdCloudwatch = new k8s.helm.v2.Chart(name,
             },
         ],
     },
-    {providers: { kubernetes: eksProvider }},
+    {providers: { kubernetes: provider }},
 );
