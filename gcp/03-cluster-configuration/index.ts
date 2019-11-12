@@ -52,14 +52,14 @@ const performantNodes = new gcp.container.NodePool("performant-nodes", {
     autoscaling: {minNodeCount: 0, maxNodeCount: 3},
     initialNodeCount: 2,
     nodeConfig: {
-        machineType: "n1-standard-16",
+        machineType: "n1-standard-8",
         oauthScopes: [
             "https://www.googleapis.com/auth/compute",
             "https://www.googleapis.com/auth/devstorage.read_only",
             "https://www.googleapis.com/auth/logging.write",
             "https://www.googleapis.com/auth/monitoring",
         ],
-        labels: {"instanceType": "n1-standard-16"},
+        labels: {"instanceType": "n1-standard-8"},
         tags: ["org-pulumi"],
         taints: [{key: "special", value: "true", effect: "NO_SCHEDULE"}],
     },
@@ -105,7 +105,7 @@ export const kubeconfig = k8sConfig;
 export const clusterName = cluster.name;
 
 // Expose a k8s provider instance of the cluster.
-const provider = new k8s.Provider(`${name}-gke`, { kubeconfig: k8sConfig });
+const provider = new k8s.Provider(`${name}-gke`, { kubeconfig: k8sConfig }, {dependsOn: cluster });
 
 // Create Kubernetes namespaces.
 const clusterSvcsNamespace = new k8s.core.v1.Namespace("cluster-svcs", undefined, {
@@ -177,7 +177,8 @@ const devsGroupRoleBinding = pulumi.all([
                 kind: "Role",
                 name: devsGroupRole.metadata.name,
             },
-}, { provider: provider });
+        }, { provider: provider })
+});
 
 // Create the standard StorageClass.
 const sc = new k8s.storage.v1.StorageClass("standard",
