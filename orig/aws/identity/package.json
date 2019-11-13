@@ -1,0 +1,10 @@
+{
+    "devDependencies": {
+        "@types/node": "latest",
+        "tslint": "^5.11.0"
+    },
+    "dependencies": {
+        "@pulumi/aws": "latest",
+        "@pulumi/pulumi": "latest"
+    }
+}

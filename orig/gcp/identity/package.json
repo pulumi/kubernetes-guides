@@ -1,0 +1,9 @@
+{
+    "devDependencies": {
+        "@types/node": "latest"
+    },
+    "dependencies": {
+        "@pulumi/gcp": "^0.16.2",
+        "@pulumi/pulumi": "^0.16.6"
+    }
+}

@@ -1,0 +1,10 @@
+{
+    "name": "@pulumi/gke",
+    "devDependencies": {
+        "@types/node": "latest"
+    },
+    "dependencies": {
+        "@pulumi/kubernetes": "^0.18.0",
+        "@pulumi/pulumi": "^0.16.7"
+    }
+}
