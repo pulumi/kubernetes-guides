@@ -10,9 +10,7 @@ To deploy your infrastructure, follow the below steps.
 
 ### Prerequisites
 
-1. [Install Pulumi](https://www.pulumi.com/docs/get-started/install/)
-1. [Install Node.js 8.11.3](https://nodejs.org/en/download/)
-1. [Configure access to a Kubernetes cluster](https://kubernetes.io/docs/setup/)
+1. [Get Started with Kubernetes on Pulumi](https://www.pulumi.com/docs/get-started/kubernetes/)
 
 ### Steps
 
