@@ -1,10 +1,10 @@
 [![Deploy](https://get.pulumi.com/new/button.svg)](https://app.pulumi.com/new)
 
-# Cluster Configuration - GCP
+# App Services - GCP
 
-Create the GKE Cluster and Kubernetes Defaults.
+Deploy App Services in the GKE Cluster.
 
-Check out the [Crosswalk Guide](https://www.pulumi.com/docs/guides/crosswalk/kubernetes/control-plane)
+Check out the [Crosswalk Guide](https://www.pulumi.com/docs/guides/crosswalk/kubernetes/app-services)
 on this stack for more details.
 
 ## Deploying the Stack

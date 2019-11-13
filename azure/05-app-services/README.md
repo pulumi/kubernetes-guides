@@ -2,7 +2,7 @@
 
 # App Services - Azure
 
-Deploy Cluster Services in the AKS cluster.
+Deploy App Services in the AKS cluster.
 
 Check out the [Crosswalk Guide](https://www.pulumi.com/docs/guides/crosswalk/kubernetes/app-services)
 on this stack for more details.
