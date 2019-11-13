@@ -28,13 +28,20 @@ After cloning this repo, from this working directory, run these commands:
     $ pulumi stack init
     ```
 
-3. Bring up the stack, which create all of the resources required to run wordpress.
+1. Configure the stack.
+
+    ```bash
+    $ pulumi config set k8s-apps-daemonset-datadog:clusterStackRef myUser/k8s-<cloud>-cluster/dev-1571780002
+    $ pulumi config set k8s-apps-daemonset-datadog:datadogApiKey 00000000111111111222222222333333
+    ```
+
+1. Update the stack.
 
     ```bash
     $ pulumi up
     ```
    
-4. Once you've finished experimenting, tear down your stack's resources by destroying and removing it:
+1. Once you've finished experimenting, tear down your stack's resources by destroying and removing it:
 
     ```bash
     $ pulumi destroy --yes

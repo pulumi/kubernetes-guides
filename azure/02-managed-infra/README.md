@@ -55,7 +55,7 @@ After cloning this repo, from this working directory, run these commands:
     $ pulumi config set k8s-az-infra:identityStackRef myUser/k8s-az-identity/dev-1573591216
     ```
 
-1. Bring up the stack, which create all of the resources required to run wordpress.
+1. Update the stack.
 
     ```bash
     $ pulumi up

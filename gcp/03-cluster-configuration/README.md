@@ -57,7 +57,7 @@ After cloning this repo, from this working directory, run these commands:
     $ pulumi config set k8s-gke-cluster:infraStackRef myUser/k8s-gcp-infra/dev-1573589378
     ```
 
-1. Bring up the stack, which create all of the resources required to run wordpress.
+1. Update the stack.
 
     ```bash
     $ pulumi up

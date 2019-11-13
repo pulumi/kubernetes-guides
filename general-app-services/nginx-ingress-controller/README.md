@@ -33,7 +33,6 @@ After cloning this repo, from this working directory, run these commands:
 1. Configure the stack.
 
     ```bash
-    $ pulumi stack init
     $ pulumi config set k8s-aws-apps-svcs-nginx:infraStackRef myUser/k8s-<cloud>-infra/dev-1573589378
     $ pulumi config set k8s-aws-apps-svcs-nginx:clusterStackRef myUser/k8s-<cloud>-cluster/dev-1571780002
     ```
