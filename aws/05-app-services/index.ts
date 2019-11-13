@@ -12,7 +12,9 @@ const clusterName = config.clusterName;
 
 // Generate a strong password for the Postgres DB.
 const password = new random.RandomPassword(`${projectName}-password`, {
-    length: 20,
+    length: 16,
+    overrideSpecial: "_%@",
+    special: true,
 }).result;
 
 // Create a Postgres DB instance of RDS.
@@ -32,7 +34,7 @@ const db = new aws.rds.Instance("postgresdb", {
 });
 
 // Create a Secret from the DB connection information.
-const provider = new k8s.Provider("eks-provider", {kubeconfig: config.kubeconfig.apply(JSON.stringify)});
+const provider = new k8s.Provider("provider", {kubeconfig: config.kubeconfig});
 const dbConn = new k8s.core.v1.Secret("postgres-db-conn",
     {
         data: {
