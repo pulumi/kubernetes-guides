@@ -1,10 +1,10 @@
 [![Deploy](https://get.pulumi.com/new/button.svg)](https://app.pulumi.com/new)
 
-# Cluster Servcies - Azure
+# Cluster Services - Azure
 
 Deploy Cluster Services in the AKS cluster.
 
-Check out the [Crosswalk Guide](https://www.pulumi.com/docs/guides/crosswalk/kubernetes/cluster-servics)
+Check out the [Crosswalk Guide](https://www.pulumi.com/docs/guides/crosswalk/kubernetes/cluster-services)
 on this stack for more details.
 
 ## Deploying the Stack
