@@ -11,18 +11,18 @@ If you are just getting started with Pulumi and Kubernetes, the
 
 <img src="images/cake.svg">
 
-The cloud provider stacks to deploy include:
+The cloud provider stacks to deploy.
 
 | AWS  | Azure  | GCP  |
 |---|---|---|
-| [Identity Stack](./aws/01-identity) | [Identity Stack](./azure/01-identity) | [Identity Stack](./gcp/01-identity) |
-| [Managed Infrastructure Stack](./aws/02-managed-infra) | [Managed Infrastructure Stack](./azure/02-managed-infra) | [Managed Infrastructure Stack](./gcp/02-managed-infra) |
+| [Identity](./aws/01-identity) | [Identity](./azure/01-identity) | [Identity](./gcp/01-identity) |
+| [Managed Infrastructure](./aws/02-managed-infra) | [Managed Infrastructure](./azure/02-managed-infra) | [Managed Infrastructure](./gcp/02-managed-infra) |
 | [Cluster Configuration](./aws/03-cluster-configuration) | [Cluster Configuration](./azure/03-cluster-configuration) | [Cluster Configuration](./gcp/03-cluster-configuration) |
 | [Deploy Cluster Services](./aws/04-cluster-services) | [Deploy Cluster Services](./azure/04-cluster-services) | [Deploy Cluster Services](./gcp/04-cluster-services) |
 | [Deploy App Services](./aws/05-app-services) | [Deploy App Services](./azure/05-app-services) | [Deploy App Services](./gcp/05-app-services) |
 | [Deploy Apps](./aws/06-apps) | [Deploy Apps](./azure/06-apps) | [Deploy Apps](./gcp/06-apps) |
 
-The Kuberentes stacks that apply to all clouds:
+The Kuberentes stacks that can be deployed on all clouds:
 
   * [General Cluster Services](./general-cluster-services)
   * [General App Services](./general-app-services)
