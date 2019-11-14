@@ -78,6 +78,7 @@ export const kubeconfig = cluster.kubeConfigRaw;
 export const kubeconfigAdmin = cluster.kubeAdminConfigRaw;
 export const clusterId = cluster.id;
 export const clusterName = cluster.name;
+export const clusterResourceGroup = cluster.nodeResourceGroup;
 
 // Define a k8s provider instance of the cluster.
 // Use admin config to get enough permissions for role binding.
