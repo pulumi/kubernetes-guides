@@ -1,7 +1,7 @@
 // Copyright 2016-2019, Pulumi Corporation.  All rights reserved.
 
 import * as k8s from "@pulumi/kubernetes";
-// import * as kx from "@pulumi/kubernetesx";
+import * as kx from "@pulumi/kubernetesx";
 import { config } from "./config";
 
 const provider = new k8s.Provider("provider", {
@@ -61,9 +61,10 @@ const nginx = new k8s.apps.v1.Deployment(appName, {
     },
 }, { provider: provider });
 
-/*
+//
 // Example using KX
 //
+
 // Create a KX Secret with the database credentials.
 const databaseSecretKx = new kx.Secret("db-secret", {
     stringData: {
@@ -72,22 +73,19 @@ const databaseSecretKx = new kx.Secret("db-secret", {
     }
 }, { provider: provider });
 
-Create a KX PodBuilder for the demo app.
-const nginxPB = new kx.PodBuilder(appName, {
-    spec: {
-        containers: [{
-            image: "nginx",
-            env: {
-                "DATABASE_USERNAME": databaseSecretKx.asEnvValue("database-username"),
-                "DATABASE_PASSWORD": databaseSecretKx.asEnvValue("database-password"),
-            }
-        }]
-    }
+// Define the Pod to deploy.
+const nginxPB = new kx.PodBuilder({
+    containers: [{
+        image: "nginx",
+        env: {
+            "DATABASE_USERNAME": databaseSecretKx.asEnvValue("database-username"),
+            "DATABASE_PASSWORD": databaseSecretKx.asEnvValue("database-password"),
+        }
+    }]
 });
 
-Create a KX Deployment from the KX PodBuilder by transforming it into a DeploymentSpec.
-The deployment use database credentials as environment variables.
-const nginxDeployment = new kx.Deployment(appName, {
+// Create a KX Deployment from the KX PodBuilder by transforming it into a DeploymentSpec.
+// The deployment uses the database credentials as environment variables.
+const nginxKx = new kx.Deployment(appName, {
     spec: nginxPB.asDeploymentSpec({replicas: 1})
 }, { provider: provider });
-*/
