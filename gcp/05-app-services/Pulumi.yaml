@@ -1,0 +1,3 @@
+name: k8s-gke-apps-svcs
+description: Deploys common GKE app services.
+runtime: nodejs

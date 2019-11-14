@@ -1,0 +1,11 @@
+{
+    "name": "k8s-apps-job",
+    "devDependencies": {
+        "@types/node": "^8.0.0"
+    },
+    "dependencies": {
+        "@pulumi/pulumi": "latest",
+        "@pulumi/kubernetes": "latest",
+        "@pulumi/kubernetesx": "^0.1.0"
+    }
+}

@@ -1,0 +1,3 @@
+name: k8s-gcp-identity
+description: Creates an identity stack for an GKE cluster and its users.
+runtime: nodejs

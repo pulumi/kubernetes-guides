@@ -1,0 +1,3 @@
+name: k8s-apps-wordpress
+description: Deploy wordpress.
+runtime: nodejs

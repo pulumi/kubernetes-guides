@@ -1,0 +1,10 @@
+{
+    "name": "k8s-gcp-identity",
+    "devDependencies": {
+        "@types/node": "latest"
+    },
+    "dependencies": {
+        "@pulumi/gcp": "latest",
+        "@pulumi/pulumi": "latest"
+    }
+}

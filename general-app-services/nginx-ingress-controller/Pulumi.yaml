@@ -1,0 +1,3 @@
+name: k8s-app-svcs-nginx
+description: Deploys the NGINX Ingress Controller in the App Services Namespace.
+runtime: nodejs

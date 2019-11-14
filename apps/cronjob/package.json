@@ -1,0 +1,10 @@
+{
+    "name": "k8s-apps-cronjob",
+    "devDependencies": {
+        "@types/node": "^8.0.0"
+    },
+    "dependencies": {
+        "@pulumi/pulumi": "latest",
+        "@pulumi/kubernetes": "latest"
+    }
+}

@@ -1,0 +1,17 @@
+/.pulumi/
+/.vscode/
+bin/
+node_modules/
+*.pyc
+.Python
+include/
+lib/
+yarn.lock
+yarn-error.log
+package-lock.json
+Pulumi.*.yaml
+.idea/
+*.iml
+
+infra-ci-client-secret.json
+k8s-app-dev-ci-client-secret.json

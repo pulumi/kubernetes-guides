@@ -1,68 +1,32 @@
-# Kubernetes the Prod Way
+# Kubernetes Guides
 
-> **NOTE:** This tutorial is still a work in progress! We will remove this message when we are more
-> confident in its stability!
+[Pulumi Crosswalk for Kubernetes][crosswalk-k8s] is a collection of industry standard
+best-practices for managing Kubernetes, and its infrastructure in production.
 
-**Kubernetes the Prod Way** is a tutorial, reference architecture, and collection of prod-first code
-examples that demonstrate industry best-practices for **using Kubernetes** in contexts where an
-**organization of people** must ship **production applications.**
+This guide is for provisioning and configuring production-grade Kubernetes
+clusters, and deploying workloads into the clusters.
 
-For example: in an organization, we typically expect identity (_e.g._, [AWS IAM][aws-iam], [GCP
-IAM][gcp-iam], [Azure AD][azure-ad]), compute (_e.g._, [EKS][eks], [GKE][gke], [AKS][aks]), storage
-(_e.g._, [Aurora][aurora], [Cloud SQL][cloud-sql], [CosmosDB][cosmos-db]), and networking to be
-provisioned and "owned" by separate people, and perhaps separate teams. But, when an app team
-deploys a service, we expect all of these components to work seamlessly together.
+If you are just getting started with Pulumi and Kubernetes, the
+[Get Started][k8s-get-started] guide is a better place to start.
 
-**Kubernetes the Prod Way** will show you, using batteries-included examples, how to **provision**
-and **use** these technologies together in a way that maintains high release velocity, without
-sacrificing security, governance, or stability.
+<img src="images/cake.svg">
 
-Examples are provided for each of: **AWS, GCP, and Azure.** In the future, we will also provide
-examples for common on-prem technology, such as VMWare vSphere.
+The cloud provider stacks to deploy.
 
-## Target Audience
+| AWS  | Azure  | GCP  |
+|---|---|---|
+| [Identity](./aws/01-identity) | [Identity](./azure/01-identity) | [Identity](./gcp/01-identity) |
+| [Managed Infrastructure](./aws/02-managed-infra) | [Managed Infrastructure](./azure/02-managed-infra) | [Managed Infrastructure](./gcp/02-managed-infra) |
+| [Cluster Configuration](./aws/03-cluster-configuration) | [Cluster Configuration](./azure/03-cluster-configuration) | [Cluster Configuration](./gcp/03-cluster-configuration) |
+| [Deploy Cluster Services](./aws/04-cluster-services) | [Deploy Cluster Services](./azure/04-cluster-services) | [Deploy Cluster Services](./gcp/04-cluster-services) |
+| [Deploy App Services](./aws/05-app-services) | [Deploy App Services](./azure/05-app-services) | [Deploy App Services](./gcp/05-app-services) |
+| [Deploy Apps](./aws/06-apps) | [Deploy Apps](./azure/06-apps) | [Deploy Apps](./gcp/06-apps) |
 
-This tutorial is aimed at people who are planning to support production applications running on
-Kubernetes, particularly those looking for concrete guidance on how to set up infrastructure so that
-teams can operate quickly, effectively, and safely.
+The Kuberentes stacks that can be deployed on all clouds:
 
-## Contents
+  * [General Cluster Services](./general-cluster-services)
+  * [General App Services](./general-app-services)
+  * [Apps](./apps)
 
-The labs in Kubernetes the Prod Way are built using [Pulumi][pulumi], a tool that allows you to
-provision and configure cloud infrastructure, including [Amazon Web Services][aws] (AWS), [Microsoft
-Azure][azure], [Google Cloud Platform][gcp] (GCP), and Kubernetes.
-
-With that said, nearly all of the lessons learned could be applied using other tools as well, and
-there is very little that is specific to Pulumi.
-
-Kubernetes the Prod Way is organized as a series of labs. These labs cover everything from
-bootstrapping IAM roles, to provisioning compute, storage, and networking, to deploying applications
-on top of Kubernetes.
-
-* [Prerequisites](./docs/00-prerequisites.md)
-* [A Production Architecture for _Teams_](./docs/01-architecture.md)
-* [Lab 1: Bootstrapping Identity](./docs/02-identity.md)
-* [Lab 2: Provisioning Environments](./docs/03-infrastructure.md)
-* [Lab 3: Provisioning Applications](./docs/04-app.md)
-* Lab 4: Setting Up CI/CD (coming soon!)
-* Lab 5: Configuring Standard Kubernetes Infrastructure (coming soon!)
-* Lab 6: Testing your infrastructure (coming soon!)
-
-
-[aws-iam]: https://aws.amazon.com/iam/
-[gcp-iam]: https://cloud.google.com/iam/
-[azure-ad]: https://azure.microsoft.com/en-us/services/active-directory/
-
-[eks]: https://aws.amazon.com/eks/
-[gke]: https://cloud.google.com/kubernetes-engine/
-[aks]: https://docs.microsoft.com/en-us/azure/aks/
-
-[aurora]: https://aws.amazon.com/rds/aurora/
-[cloud-sql]: https://cloud.google.com/sql/
-[cosmos-db]: https://azure.microsoft.com/en-us/services/cosmos-db/
-
-[pulumi]: https://www.pulumi.com/
-
-[aws]: https://aws.amazon.com/
-[azure]: https://azure.microsoft.com/en-us/
-[gcp]: https://cloud.google.com/
+[crosswalk-k8s]: https://pulumi.com/docs/guides/crosswalk/kubernetes
+[k8s-get-started]: https://pulumi.com/docs/get-started/kubernetes

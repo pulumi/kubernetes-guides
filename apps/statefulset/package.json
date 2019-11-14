@@ -1,0 +1,12 @@
+{
+    "name": "k8s-apps-statefulset",
+    "devDependencies": {
+        "typescript": "^3.0.0",
+        "@types/node": "latest"
+    },
+    "dependencies": {
+        "@pulumi/kubernetes": "latest",
+        "@pulumi/pulumi": "latest",
+        "@pulumi/random": "latest"
+    }
+}

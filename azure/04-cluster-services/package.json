@@ -1,0 +1,11 @@
+{
+    "name": "k8s-az-cl-svcs",
+    "devDependencies": {
+        "typescript": "^3.0.0",
+        "@types/node": "latest"
+    },
+    "dependencies": {
+        "@pulumi/azure": "latest",
+        "@pulumi/pulumi": "latest"
+    }
+}

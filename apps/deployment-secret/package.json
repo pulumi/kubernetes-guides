@@ -1,0 +1,10 @@
+{
+    "name": "k8s-apps-deployment-secret",
+    "devDependencies": {
+        "@types/node": "^8.0.0"
+    },
+    "dependencies": {
+        "@pulumi/pulumi": "latest",
+        "@pulumi/kubernetes": "latest"
+    }
+}

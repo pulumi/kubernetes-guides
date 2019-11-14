@@ -1,0 +1,3 @@
+name: k8s-gcp-infra
+description: Creates an managed infrastructure stack for an GCP GKE cluster.
+runtime: nodejs

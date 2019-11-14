@@ -1,0 +1,14 @@
+{
+    "name": "k8s-gke-cluster",
+    "devDependencies": {
+        "typescript": "^3.0.0",
+        "@types/node": "latest",
+        "@types/which": "latest"
+    },
+    "dependencies": {
+        "@pulumi/kubernetes": "latest",
+        "@pulumi/gcp": "latest",
+        "@pulumi/pulumi": "latest",
+        "@pulumi/random": "latest"
+    }
+}
