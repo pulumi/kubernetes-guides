@@ -22,7 +22,7 @@ The cloud provider stacks to deploy.
 | [Deploy App Services](./aws/05-app-services) | [Deploy App Services](./azure/05-app-services) | [Deploy App Services](./gcp/05-app-services) |
 | [Deploy Apps](./aws/06-apps) | [Deploy Apps](./azure/06-apps) | [Deploy Apps](./gcp/06-apps) |
 
-The Kuberentes stacks that can be deployed on all clouds:
+The Kubernetes stacks that can be deployed on all clouds:
 
   * [General Cluster Services](./general-cluster-services)
   * [General App Services](./general-app-services)
