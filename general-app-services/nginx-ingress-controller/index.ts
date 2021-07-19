@@ -71,7 +71,7 @@ const service = new k8s.core.v1.Service(name,
 export const serviceName = service.metadata.name;
 
 // Create the kuard Ingress
-const ingress = new k8s.extensions.v1beta1.Ingress(name,
+const ingress = new k8s.networking.v1.Ingress(name,
     {
         metadata: {
             labels: labels,
@@ -86,9 +86,12 @@ const ingress = new k8s.extensions.v1beta1.Ingress(name,
                         paths: [
                             {
                                 path: "/",
+                                pathType: "ImplementationSpecific",
                                 backend: {
-                                    serviceName: serviceName,
-                                    servicePort: "http",
+                                    service: {
+                                        name: serviceName,
+                                        port: "http"
+                                    }
                                 }
                             },
                         ],
