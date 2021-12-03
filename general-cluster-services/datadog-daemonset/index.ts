@@ -99,7 +99,7 @@ const datadog = new k8s.apps.v1.DaemonSet(appName, {
                 containers: [
                     {
                         image: "datadog/agent:latest",
-                        name: "nginx",
+                        name: "datadog",
                         resources: {limits: {memory: "512Mi"}, requests: {memory: "512Mi"}},
                         env: [
                             {
