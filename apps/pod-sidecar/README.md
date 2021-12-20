@@ -1,4 +1,4 @@
-[![Deploy](https://get.pulumi.com/new/button.svg)](https://app.pulumi.com/new)
+[![Deploy](https://get.pulumi.com/new/button.svg)](https://app.pulumi.com/new?template=https://github.com/pulumi/kubernetes-guides/blob/master/apps/pod-sidecar/README.md)
 
 # Pod with a Sidecar
 
