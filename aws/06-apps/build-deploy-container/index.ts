@@ -17,13 +17,30 @@ import * as k8s from "@pulumi/kubernetes";
 import * as kx from "@pulumi/kubernetesx";
 import { config } from "./config";
 
+// Create a new VPC with custom settings.
+const vpcName = "eksVpc";
+const vpc = new awsx.ec2.Vpc(vpcName, {
+    cidrBlock: "172.16.0.0/16",
+    tags: { "Name": vpcName },
+});
+
+// Export the VPC resource IDs.
+export const vpcId = vpc.vpcId;
+export const publicSubnetIds = vpc.publicSubnetIds;
+export const privateSubnetIds = vpc.privateSubnetIds;
+
 // Create a repository.
-const repo = new awsx.ecr.Repository("my-repo");
+const repo = new awsx.ecr.Repository("repo", {
+    forceDelete: true,
+});
 
 // Build a Docker image from a local Dockerfile context in the
 // './node-app' directory, and push it to the registry.
 const customImage = "node-app";
-const appImage = repo.buildAndPushImage(`./${customImage}`);
+const appImage = new awsx.ecr.Image("image", {
+    repositoryUrl: repo.url,
+    path: `./${customImage}`,
+});
 
 // Create a k8s provider.
 const provider = new k8s.Provider("provider", {
@@ -42,7 +59,7 @@ const appDeployment = new k8s.apps.v1.Deployment("app", {
             spec: {
                 containers: [{
                     name: customImage,
-                    image: appImage,
+                    image: appImage.imageUri,
                     ports: [{name: "http", containerPort: 80}],
                 }],
             }
@@ -57,7 +74,7 @@ const appDeployment = new k8s.apps.v1.Deployment("app", {
 // Define the Pod for the Deployment.
 const pb = new kx.PodBuilder({
     containers: [{
-        image: appImage,
+        image: appImage.imageUri,
         ports: { "http": 80 },
     }],
 });
