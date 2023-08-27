@@ -21,10 +21,10 @@ export function bindToRole(
     args: { project: pulumi.Input<string>; roles: string[]})
 {
     args.roles.forEach((role, index) => {
-        new gcp.projects.IAMBinding(`${name}-${index}`, {
+        new gcp.projects.IAMMember(`${name}-${index}`, {
             project: args.project,
             role: role,
-            members: [sa.email.apply(email => `serviceAccount:${email}`)],
+            member: sa.email.apply(email => `serviceAccount:${email}`),
         });
     })
 }
