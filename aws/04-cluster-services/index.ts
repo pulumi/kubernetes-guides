@@ -39,7 +39,7 @@ attachLogPolicies("perfRpa", perfNodegroupIamRoleName);
 const provider = new k8s.Provider("provider", {kubeconfig: config.kubeconfig});
 const fluentdCloudWatchLogGroup = new aws.cloudwatch.LogGroup(name);
 export let fluentdCloudWatchLogGroupName = fluentdCloudWatchLogGroup.name;
-const fluentdCloudwatch = new k8s.helm.v2.Chart(name,
+const fluentdCloudwatch = new k8s.helm.v3.Chart(name,
     {
         namespace: config.clusterSvcsNamespaceName,
         chart: "fluentd-cloudwatch",
