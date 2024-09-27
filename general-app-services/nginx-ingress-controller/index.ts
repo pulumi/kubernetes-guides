@@ -9,7 +9,7 @@ const provider = new k8s.Provider("provider", {
 export const appsNamespaceName = config.appsNamespaceName
 
 // Deploy NGINX ingress controller using the Helm chart.
-const nginx = new k8s.helm.v2.Chart("nginx",
+const nginx = new k8s.helm.v3.Chart("nginx",
     {
         namespace: config.appSvcsNamespaceName,
         chart: "nginx-ingress",
@@ -90,7 +90,9 @@ const ingress = new k8s.networking.v1.Ingress(name,
                                 backend: {
                                     service: {
                                         name: serviceName,
-                                        port: "http"
+                                        port: {
+                                            name: "http",
+                                        }
                                     }
                                 }
                             },
